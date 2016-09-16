@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class Lab1 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {//主函数主要用于调试各个部分的功能
 		// TODO Auto-generated method stub
 		Scanner reader=new Scanner(System.in);
 		String str1=reader.nextLine();
@@ -15,20 +15,24 @@ public class Lab1 {
 		String testString=str1.replaceAll("[\t ]", "");
 		//testString=str1.replaceAll("", "");
 		
-		
 		boolean flag=l.test(testString);
 		System.out.println(flag);
 		
 		linkTable lt=l.setTable(testString);
 		System.out.println(l.expression(lt));
-		
-
-		
+	
+	}
+	
+	
+	linkTable derivate(linkTable lz,String var){//求导函数，暂时只是一个想法，尚未实现
+		linkTable lz1=new linkTable();
+		return lz1;
 	}
 	
 	
 	
-	String expression(linkTable lt){
+	
+	String expression(linkTable lt){//遍历表，读出多项式
 		String str="";
 		node p=lt.head,q=p;
 		boolean flag=false;
@@ -59,7 +63,7 @@ public class Lab1 {
 		return str;
 	}
 	
-	linkTable setTable(String str){
+	linkTable setTable(String str){//根据已有的合法多项式建立二维链表
 		linkTable lt=new linkTable();
 		int n=0;
 		Pattern p1,p2,p3,p4;
@@ -154,34 +158,39 @@ public class Lab1 {
 	
 	 boolean test(String str){//妫�楠屽椤瑰紡鏄惁婊¤冻瑕佹眰
 		
-		if(!(str.matches("[1-9a-zA-Z[-]][[\\*\\^+-][0-9a-zA-Z]]*")))return false;
+		if(!(str.matches("[1-9a-zA-Z[-]][[\\*\\^+-][0-9a-zA-Z]]*")))return false;//检查有无合法字符
 	
-		if((str.matches(".*[\\*\\^+-]")))return false;
-		Pattern p=Pattern.compile("[a-zA-Z][0-9]");
+		if((str.matches(".*[\\*\\^+-]")))return false;//检查末尾字符为符号情况
+		Pattern p=Pattern.compile("[a-zA-Z][0-9]");//检查是否存在字母后为数字情况
 		Matcher m=p.matcher(str);
 		if(m.find())return false;
 		
-		p=Pattern.compile("[\\*\\^+-]{2,}");
+		p=Pattern.compile("[\\*\\^+-]{2,}");//检查连续两个运算符情况
 		m=p.matcher(str);
 		if(m.find())return false;
 		
-		p=Pattern.compile("[\\^][a-zA-Z]");
+		p=Pattern.compile("[\\^][a-zA-Z]");//检查存在字母为幂指数
 		m=p.matcher(str);
 		if(m.find())return false;
 		
-		p=Pattern.compile("[\\^]\\d+[a-zA-Z]");
+		p=Pattern.compile("[\\^]\\d+[a-zA-Z]");//检查幂指数后直接有字母
 		m=p.matcher(str);
 		if(m.find())return false;
 		
 		return true;
 	}
 	
-	class linkTable
+	class linkTable//一个二维链表类
 	{
 		node head;
 		node tail;
+<<<<<<< HEAD
 		public node insert(int fac)
 		//鎻掑叆绯绘暟鑺傜偣
+=======
+		public node insert(int fac)//插入每列的头节点，返回该节点
+		//插入系数节点
+>>>>>>> origin/master
 		{
 			node n=new node();
 			n.fac=fac;
@@ -221,7 +230,7 @@ public class Lab1 {
 			}
 		}
 	
-		public void simplify(){
+		public void simplify(){//对于该链表进行处理，简化多项式
 			node p=head,q=head.next,r=head,r1=head;
 			while(p!=null){
 			
@@ -252,7 +261,7 @@ public class Lab1 {
 			}
 		}
 	
-		boolean compare(node top1,node top2){
+		boolean compare(node top1,node top2){//检查每一列后的变量是否完全相同
 			node p=top1.link,q=top2.link;
 			while(p!=null&&q!=null){
 				if(!(p.exp==q.exp&&p.var.equals(q.var)))
