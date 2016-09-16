@@ -43,9 +43,9 @@ public class Lab1 {
 				if(p==q){
 					flag=(p.fac==1);
 					if(str.equals("")&&p.fac>0)
-					str+=(p.fac==1&&p.link!=null?"":p.fac);
+					str+=(p.fac==1&&p.link!=null?"":""+p.fac);
 					else if(p.fac>0)
-						str+="+"+(p.fac==1?"":p.fac);
+						str+="+"+(p.fac==1?"":""+p.fac);
 					else str+=p.fac;
 				}
 				else{
@@ -152,7 +152,7 @@ public class Lab1 {
 	
 	
 	
-	 boolean test(String str){//检验多项式是否满足要求
+	 boolean test(String str){//妫�楠屽椤瑰紡鏄惁婊¤冻瑕佹眰
 		
 		if(!(str.matches("[1-9a-zA-Z[-]][[\\*\\^+-][0-9a-zA-Z]]*")))return false;
 	
@@ -181,7 +181,7 @@ public class Lab1 {
 		node head;
 		node tail;
 		public node insert(int fac)
-		//插入系数节点
+		//鎻掑叆绯绘暟鑺傜偣
 		{
 			node n=new node();
 			n.fac=fac;
@@ -198,7 +198,7 @@ public class Lab1 {
 			return n;
 		}
 		public void insert(String var,node top,int num)
-		//插入变量，var为变量，top为系数节点，num为幂指数
+		//鎻掑叆鍙橀噺锛寁ar涓哄彉閲忥紝top涓虹郴鏁拌妭鐐癸紝num涓哄箓鎸囨暟
 		{
 			node p=top;
 			while (p.link!=null&&p.link.var.compareTo(var)<0)
@@ -271,7 +271,43 @@ public class Lab1 {
 		String var;
 		int exp;
 		node next=null,link=null;
-	}	
+	}
+	//化简并生成新的链表
+	linkTable simplify(linkTable l,String var,int num)
+	{
+		linkTable lz=new linkTable();
+		node ltop=l.head;
+		node lztop=lz.head;
+		while (ltop!=null)//寻找变量所在的位置
+		{
+			lztop=ltop;
+			node lp=ltop.link;
+			node lzp=lztop.link;
+			while(lp!=null&&lp.var.compareTo(var)<0)//这里的compareTo判断条件可能不对
+			{
+				//这里应该把寻找过的节点插入到新的链表里
+				lzp=lp;
+				//
+				lp=lp.link;
+			}
+			if(lp==null||lp.var.compareTo(var)!=0)  //如果没有找到变量值的话
+			{
+				ltop=ltop.next;//前往下一列找
+				continue;
+			}
+			//下面处理找到变量值的情况
+			
+			lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//计算值
+			lzp=lp.link;//这种情况假定一个变量每列只有一个
+			ltop=ltop.next;
+			lztop.next=ltop;//横向的链要链接好;
+			
+		}
+		//lp=ltop.link;
+		
+		return lz;
+		
+	}
 }
 
 
