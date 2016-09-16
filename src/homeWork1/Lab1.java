@@ -184,13 +184,10 @@ public class Lab1 {
 	{
 		node head;
 		node tail;
-<<<<<<< HEAD
-		public node insert(int fac)
-		//鎻掑叆绯绘暟鑺傜偣
-=======
+
 		public node insert(int fac)//插入每列的头节点，返回该节点
 		//插入系数节点
->>>>>>> origin/master
+
 		{
 			node n=new node();
 			n.fac=fac;
@@ -289,13 +286,13 @@ public class Lab1 {
 		node lztop=lz.head;
 		while (ltop!=null)//寻找变量所在的位置
 		{
-			lztop=ltop;
+			lztop=lz.insert(ltop.fac);
 			node lp=ltop.link;
-			node lzp=lztop.link;
+			//node lzp=lztop.link;
 			while(lp!=null&&lp.var.compareTo(var)<0)//这里的compareTo判断条件可能不对
 			{
 				//这里应该把寻找过的节点插入到新的链表里
-				lzp=lp;
+				lz.insert(lp.var, lztop, lp.exp);
 				//
 				lp=lp.link;
 			}
@@ -307,9 +304,15 @@ public class Lab1 {
 			//下面处理找到变量值的情况
 			
 			lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//计算值
-			lzp=lp.link;//这种情况假定一个变量每列只有一个
+			while(lp!=null)
+			{
+				//这里应该把寻找过的节点插入到新的链表里
+				lz.insert(lp.var, lztop, lp.exp);
+				//
+				lp=lp.link;
+			}
 			ltop=ltop.next;
-			lztop.next=ltop;//横向的链要链接好;
+			//lztop.next=ltop;//横向的链要链接好;
 			
 		}
 		//lp=ltop.link;
@@ -334,7 +337,7 @@ public class Lab1 {
 		
 		return true;
 	}
-	boolean dxIsTrue(String str)//判断!d/dx输入是否合法
+	boolean dxIsTruesTrue(String str)//判断输入是否合法
 	{
 		Pattern p;
 		p=Pattern.compile("!d/d[a-zA-Z]+");
