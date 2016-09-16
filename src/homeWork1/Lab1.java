@@ -20,7 +20,12 @@ public class Lab1 {
 		
 		linkTable lt=l.setTable(testString);
 		System.out.println(l.expression(lt));
-	
+		//
+		Scanner reader1=new Scanner(System.in);
+		String str2=reader.nextLine();
+		//
+		System.out.println(l.expression(l.simplify(lt,str2,2)));
+		System.out.println(l.expression(lt));
 	}
 	
 	
@@ -156,7 +161,7 @@ public class Lab1 {
 	
 	
 	
-	 boolean test(String str){//妫�楠屽椤瑰紡鏄惁婊¤冻瑕佹眰
+	 boolean test(String str){//测试多项式输入是否合法
 		
 		if(!(str.matches("[1-9a-zA-Z[-]][[\\*\\^+-][0-9a-zA-Z]]*")))return false;//检查有无合法字符
 	
@@ -289,7 +294,7 @@ public class Lab1 {
 			lztop=lz.insert(ltop.fac);
 			node lp=ltop.link;
 			//node lzp=lztop.link;
-			while(lp!=null&&lp.var.compareTo(var)<0)//这里的compareTo判断条件可能不对
+			while(lp!=null&&lp.var.compareTo(var)>0)//这里的compareTo判断条件可能不对
 			{
 				//这里应该把寻找过的节点插入到新的链表里
 				lz.insert(lp.var, lztop, lp.exp);
@@ -304,21 +309,20 @@ public class Lab1 {
 			//下面处理找到变量值的情况
 			
 			lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//计算值
-			while(lp!=null)
+			while(lp.link!=null)
 			{
+				lp=lp.link;
 				//这里应该把寻找过的节点插入到新的链表里
 				lz.insert(lp.var, lztop, lp.exp);
-				//
-				lp=lp.link;
+				
+				
 			}
 			ltop=ltop.next;
 			//lztop.next=ltop;//横向的链要链接好;
 			
 		}
 		//lp=ltop.link;
-		
-		return lz;
-		
+		return lz;	
 	}
 	boolean simplifyIsTrue(String str)//判断!simplify输入是否合法
 	{
