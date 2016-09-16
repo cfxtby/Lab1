@@ -317,6 +317,31 @@ public class Lab1 {
 		return lz;
 		
 	}
+	boolean simplifyIsTrue(String str)//判断!simplify输入是否合法
+	{
+		String[] strsplit=str.split("\\s+");
+		Pattern p;
+		p=Pattern.compile("!simplify");
+		Matcher m=p.matcher(strsplit[0]);
+		if(!m.find())return false;
+		for(int i=1;i<strsplit.length;i++)
+		{
+			Pattern p1;
+			p1=Pattern.compile("[a-zA-Z]+={1}[\\d]+");
+			Matcher m1=p1.matcher(strsplit[i]);
+			if(!m1.matches())return false;
+		}
+		
+		return true;
+	}
+	boolean dxIsTrue(String str)//判断!d/dx输入是否合法
+	{
+		Pattern p;
+		p=Pattern.compile("!d/d[a-zA-Z]+");
+		Matcher m=p.matcher(str);
+		if(!m.find())return false;
+		return true;
+	}
 }
 
 
