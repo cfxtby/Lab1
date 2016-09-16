@@ -68,7 +68,7 @@ public class Lab1 {
 		return str;
 	}
 	
-	linkTable setTable(String str){//根据已有的合法多项式建立二维链表
+	linkTable setTable(String str){
 		linkTable lt=new linkTable();
 		int n=0;
 		Pattern p1,p2,p3,p4;
@@ -123,9 +123,9 @@ public class Lab1 {
 					lt.insert(dealStr.split("^")[0], top, Integer.parseInt(dealStr.split("^")[1]));
 				}
 				else{
-					String[] arrStr=dealStr.split("^");
+					String[] arrStr=dealStr.split("\\^");
 					char[] arrChar=arrStr[0].toCharArray();
-					lt.insert(arrChar[arrChar.length-1]+"",top,Integer.parseInt(dealStr.split("^")[1]));
+					lt.insert(arrChar[arrChar.length-1]+"",top,Integer.parseInt(dealStr.split("\\^")[1]));
 					for (int i=0;i<arrChar.length-1;i++){
 						lt.insert(arrChar[i]+"",top,1);
 					}
@@ -133,6 +133,8 @@ public class Lab1 {
 
 				n=m3.end();
 				flag3=m3.find();
+				flag4=m4.find(n);
+				flag2=m2.find(n);
 			}
 			else if(flag4&&m4.start()==n){
 				if(top==null)top=lt.insert(1);
@@ -154,10 +156,12 @@ public class Lab1 {
 				flag4=m4.find();
 			}
 			
-		}while(flag1||flag2||flag3||flag4);
+		}while(n!=str.length());
 		lt.simplify();
 		return lt;
 	}
+
+
 	
 	
 	
@@ -294,22 +298,26 @@ public class Lab1 {
 			lztop=lz.insert(ltop.fac);
 			node lp=ltop.link;
 			//node lzp=lztop.link;
-			while(lp!=null&&lp.var.compareTo(var)>0)//这里的compareTo判断条件可能不对
+			while(lp!=null&&lp.var.compareTo(var)<0)//这里的compareTo判断条件可能不对
 			{
 				//这里应该把寻找过的节点插入到新的链表里
 				lz.insert(lp.var, lztop, lp.exp);
 				//
 				lp=lp.link;
 			}
-			if(lp==null||lp.var.compareTo(var)!=0)  //如果没有找到变量值的话
+			if(lp!=null&&lp.var.compareTo(var)==0)  //如果找到变量值的话
 			{
-				ltop=ltop.next;//前往下一列找
-				continue;
+				lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//计算值
+				//ltop=ltop.next;//前往下一列找
+				//continue;
 			}
-			//下面处理找到变量值的情况
+			else if(lp!=null)
+			{
+				lz.insert(lp.var, lztop, lp.exp);
+			}
 			
-			lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//计算值
-			while(lp.link!=null)
+			
+			while(lp!=null&&lp.link!=null)
 			{
 				lp=lp.link;
 				//这里应该把寻找过的节点插入到新的链表里
