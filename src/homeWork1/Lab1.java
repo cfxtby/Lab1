@@ -24,17 +24,13 @@ public class Lab1 {
 		Scanner reader1=new Scanner(System.in);
 		String str2=reader.nextLine();
 		//
+		System.out.println(l.expression(l.derivate(lt,str2)));
+		System.out.println(l.expression(lt));
+		/*
 		System.out.println(l.expression(l.simplify(lt,str2,2)));
 		System.out.println(l.expression(lt));
+		*/
 	}
-	
-	
-	linkTable derivate(linkTable lz,String var){//求导函数，暂时只是一个想法，尚未实现
-		linkTable lz1=new linkTable();
-		return lz1;
-	}
-	
-	
 	
 	
 	String expression(linkTable lt){//遍历表，读出多项式
@@ -290,6 +286,7 @@ public class Lab1 {
 	//化简并生成新的链表
 	linkTable simplify(linkTable l,String var,int num)
 	{
+		
 		linkTable lz=new linkTable();
 		node ltop=l.head;
 		node lztop=lz.head;
@@ -332,6 +329,121 @@ public class Lab1 {
 		//lp=ltop.link;
 		return lz;	
 	}
+	
+	linkTable derivate(linkTable l,String var)//求导函数，参数：二维链表，被求导的自变量
+	{
+		boolean findVar=false;
+		linkTable lz=new linkTable();
+		node ltop=l.head;
+		node lztop=lz.head;
+		while (ltop!=null)//寻找变量所在的位置
+		{
+			//lztop=lz.insert(ltop.fac);
+			node lfind=ltop.link;
+			//node lzp=lztop.link;
+			while(lfind!=null&&lfind.var.compareTo(var)<0)//这里的compareTo判断条件可能不对
+			{
+				//这里应该把寻找过的节点插入到新的链表里
+				//lz.insert(lp.var, lztop, lp.exp);
+				//
+				lfind=lfind.link;
+			}
+			if(lfind!=null&&lfind.var.compareTo(var)==0&&lfind.exp!=0)  //如果找到变量值的话而且变量的幂指数不为零
+			{
+				findVar=true;
+				/*
+				if (lp.exp>1)
+				{
+					lztop.fac=ltop.fac*lp.exp-1;//先得出系数
+					lz.insert(lp.var, lztop, lp.exp-1);
+				}
+				
+				else if(lp.exp==1)
+				{
+					//貌似不用处理直接跳过
+				}
+				
+				else if(lp.exp==0)
+				{
+					findVar=false;
+				}
+				*/
+				//lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//计算值
+				//ltop=ltop.next;//前往下一列找
+				//continue;
+			}
+			/*
+			else if(lp!=null)
+			{
+				lz.insert(lp.var, lztop, lp.exp);
+			}
+			*/
+			if (findVar)
+			{
+				lztop=lz.insert(ltop.fac);
+				node lp=ltop.link;
+				//node lzp=lztop.link;
+				while(lp!=null&&lp.var.compareTo(var)<0)//这里的compareTo判断条件可能不对
+				{
+					//这里应该把寻找过的节点插入到新的链表里
+					lz.insert(lp.var, lztop, lp.exp);
+					//
+					lp=lp.link;
+				}
+				if(lp!=null&&lp.var.compareTo(var)==0)  //如果找到变量值的话
+				{
+					//findVar=true;
+					
+					if (lp.exp>1)
+					{
+						lztop.fac=ltop.fac*(lp.exp-1);//先得出系数
+						lz.insert(lp.var, lztop, lp.exp-1);
+					}
+					/*
+					else if(lp.exp==1)
+					{
+						//貌似不用处理直接跳过
+					}
+					*/
+					/*
+					else if(lp.exp==0)
+					{
+						findVar=false;
+					}
+					*/
+					//lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//计算值
+					//ltop=ltop.next;//前往下一列找
+					//continue;
+				}
+				/*
+				else if(lp!=null)
+				{
+					lz.insert(lp.var, lztop, lp.exp);
+				}
+				*/
+				while(lp!=null&&lp.link!=null)
+				{
+					lp=lp.link;
+					//这里应该把寻找过的节点插入到新的链表里
+					lz.insert(lp.var, lztop, lp.exp);
+					
+					
+				}	
+					
+			}
+			
+			
+			
+			
+			ltop=ltop.next;
+			findVar=false;
+			//lztop.next=ltop;//横向的链要链接好;
+			
+		}
+		
+		return lz;
+	}
+	
 	boolean simplifyIsTrue(String str)//判断!simplify输入是否合法
 	{
 		String[] strsplit=str.split("\\s+");
@@ -349,6 +461,7 @@ public class Lab1 {
 		
 		return true;
 	}
+	
 	boolean dxIsTruesTrue(String str)//判断输入是否合法
 	{
 		Pattern p;
@@ -357,6 +470,10 @@ public class Lab1 {
 		if(!m.find())return false;
 		return true;
 	}
+	
+	
+
+
 }
 
 
