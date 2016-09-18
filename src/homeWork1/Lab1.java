@@ -9,9 +9,14 @@ public class Lab1 {
 
 	public static void main(String[] args) {//主函数主要用于调试各个部分的功能
 		// TODO Auto-generated method stub
+		
+		/*
 		Scanner reader=new Scanner(System.in);
-		String str1=reader.nextLine();
+		String str1=reader.nextLine();*/
 		Lab1 l=new Lab1();
+		l.begin();
+		/*
+		
 		String testString=str1.replaceAll("[\t ]", "");
 		//testString=str1.replaceAll("", "");
 		
@@ -21,17 +26,47 @@ public class Lab1 {
 		linkTable lt=l.setTable(testString);
 		System.out.println(l.expression(lt));
 		//
-		Scanner reader1=new Scanner(System.in);
 		String str2=reader.nextLine();
 		//
-		System.out.println(l.expression(l.derivate(lt,str2)));
-		System.out.println(l.expression(lt));
+		System.out.println(l.expression(l.derivate1(lt,str2)));
+		//System.out.println(l.expression(lt));
 		/*
 		System.out.println(l.expression(l.simplify(lt,str2,2)));
 		System.out.println(l.expression(lt));
 		*/
 	}
 	
+	
+	public void begin(){
+		Scanner reader=new Scanner(System.in);
+		String order;
+		linkTable lz=null;
+		while(true){
+			order=reader.nextLine();
+			if(test(order)){
+				lz=setTable(order);
+				System.out.println(expression(lz));
+			}
+			else if(simplifyIsTrue(order)){
+				if(lz==null)System.out.println("请首先输入一个表达式");
+				else{
+					linkTable l=simplify(lz,order);
+					System.out.println(expression(l));
+				}
+			}
+			else if(dxIsTruesTrue(order)){
+				if(lz==null)System.out.println("请首先输入一个表达式");
+				else{
+					linkTable l=derivate1(lz,order);
+					System.out.println(expression(l));
+				}
+			}
+			else if(order.compareTo("!exit")==0)break;
+			else{
+				System.out.println("请输入合法的表达式或命令");
+			}
+		}
+	}
 	
 	String expression(linkTable lt){//遍历表，读出多项式
 		String str="";
@@ -46,12 +81,27 @@ public class Lab1 {
 			else{
 				
 				if(p==q){
-					flag=(p.fac==1);
+					
+					if(p.fac==1&&p.link!=null){
+						if(!str.equals(""))str+="+";
+						flag=true;
+					}
+					else if(p.fac==-1&&p.link!=null){
+						str+="-";
+						flag=true;
+					}
+					else{
+						if(str.equals(""))str+=p.fac;
+						else str+="+"+p.fac;
+					}
+					
+					
+					/*flag=(p.fac==1);
 					if(str.equals("")&&p.fac>0)
 					str+=(p.fac==1&&p.link!=null?"":""+p.fac);
 					else if(p.fac>0)
 						str+="+"+(p.fac==1?"":""+p.fac);
-					else str+=p.fac;
+					else str+=p.fac;*/
 				}
 				else{
 					str+=(flag?"":"*")+q.var+(q.exp==1?"":"^"+q.exp);
@@ -116,7 +166,7 @@ public class Lab1 {
 				Pattern p5=Pattern.compile("([a-zA-Z])\\1");
 				Matcher m5=p5.matcher(dealStr);
 				if(m5.find()){
-					lt.insert(dealStr.split("^")[0], top, Integer.parseInt(dealStr.split("^")[1]));
+					lt.insert(dealStr.split("\\^")[0], top, Integer.parseInt(dealStr.split("\\^")[1]));
 				}
 				else{
 					String[] arrStr=dealStr.split("\\^");
@@ -153,7 +203,7 @@ public class Lab1 {
 			}
 			
 		}while(n!=str.length());
-		lt.simplify();
+	//	lt.simplify();
 		return lt;
 	}
 
@@ -209,7 +259,6 @@ public class Lab1 {
 			return n;
 		}
 		public void insert(String var,node top,int num)
-		//鎻掑叆鍙橀噺锛寁ar涓哄彉閲忥紝top涓虹郴鏁拌妭鐐癸紝num涓哄箓鎸囨暟
 		{
 			node p=top;
 			while (p.link!=null&&p.link.var.compareTo(var)<0)
@@ -284,12 +333,30 @@ public class Lab1 {
 		node next=null,link=null;
 	}
 	//化简并生成新的链表
+	
+	linkTable simplify(linkTable l,String order){//将输入的命令进行解析，并进行简化
+		String str1=order.replaceAll("\\s*=\\s*", "=");
+		String[] strsplit=str1.split("\\s+");
+		linkTable l1=l,l2;
+		for(int i=1;i<strsplit.length;i++)
+		{
+			l2=simplify(l1,strsplit[i].split("=")[0],Integer.parseInt(strsplit[i].split("=")[1]));
+			if(l2==null){
+				System.out.println(strsplit[i].split("=")[0]+"变量不存在");
+				return null;
+			}
+			l1=l2;
+		}
+		l1.simplify();
+		return l1;
+	}
+	
 	linkTable simplify(linkTable l,String var,int num)
 	{
-		
 		linkTable lz=new linkTable();
 		node ltop=l.head;
 		node lztop=lz.head;
+		boolean flag=false;
 		while (ltop!=null)//寻找变量所在的位置
 		{
 			lztop=lz.insert(ltop.fac);
@@ -305,6 +372,7 @@ public class Lab1 {
 			if(lp!=null&&lp.var.compareTo(var)==0)  //如果找到变量值的话
 			{
 				lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//计算值
+				flag=true;
 				//ltop=ltop.next;//前往下一列找
 				//continue;
 			}
@@ -313,23 +381,60 @@ public class Lab1 {
 				lz.insert(lp.var, lztop, lp.exp);
 			}
 			
-			
 			while(lp!=null&&lp.link!=null)
 			{
 				lp=lp.link;
 				//这里应该把寻找过的节点插入到新的链表里
 				lz.insert(lp.var, lztop, lp.exp);
-				
-				
 			}
 			ltop=ltop.next;
 			//lztop.next=ltop;//横向的链要链接好;
-			
 		}
 		//lp=ltop.link;
-		return lz;	
+		if(flag)
+		return lz;
+		else return null;
 	}
 	
+	
+	linkTable derivate1(linkTable l,String var)//求导函数，参数：二维链表，被求导的自变量
+	{
+		linkTable lz=new linkTable();
+		node ltop=l.head,lztopb,lztop,p,q;
+		while(ltop!=null){
+			p=ltop.link;
+			//lztop=lz.insert(ltop.fac);
+			while(p!=null&&p.var.compareTo(var)<0){
+				//lz.insert(var, lztop, p.exp);
+				p=p.link;
+			}
+			if(p==null||p.var.compareTo(var)!=0){
+				ltop=ltop.next;
+			}
+			else{
+				p=ltop.link;
+				lztop=lz.insert(ltop.fac);
+				while(p!=null&&p.var.compareTo(var)<0){
+					lz.insert(var, lztop, p.exp);
+					p=p.link;
+				}
+				if(p!=null&&p.var.compareTo(var)==0){
+					if(p.exp>1){
+						lz.insert(var, lztop, p.exp-1);
+						lztop.fac*=p.exp;
+					}
+					p=p.link;
+				}
+				while(p!=null){
+					lz.insert(var, lztop, p.exp);
+					p=p.link;
+				}
+				ltop=ltop.next;
+			}
+			
+		}
+		return lz;
+	}
 	linkTable derivate(linkTable l,String var)//求导函数，参数：二维链表，被求导的自变量
 	{
 		boolean findVar=false;
@@ -396,7 +501,7 @@ public class Lab1 {
 					
 					if (lp.exp>1)
 					{
-						lztop.fac=ltop.fac*(lp.exp-1);//先得出系数
+						lztop.fac=ltop.fac*(lp.exp-1);//先得出系数//计算方法错误
 						lz.insert(lp.var, lztop, lp.exp-1);
 					}
 					/*
@@ -446,11 +551,13 @@ public class Lab1 {
 	
 	boolean simplifyIsTrue(String str)//判断!simplify输入是否合法
 	{
-		String[] strsplit=str.split("\\s+");
+		String str1=str.replaceAll("\\s*=\\s*", "=");
+		String[] strsplit=str1.split("\\s+");
 		Pattern p;
 		p=Pattern.compile("!simplify");
 		Matcher m=p.matcher(strsplit[0]);
 		if(!m.find())return false;
+		//if(strsplit.length<=1){System.out.println("请输入变量!!!!");return false;}
 		for(int i=1;i<strsplit.length;i++)
 		{
 			Pattern p1;
@@ -458,7 +565,6 @@ public class Lab1 {
 			Matcher m1=p1.matcher(strsplit[i]);
 			if(!m1.matches())return false;
 		}
-		
 		return true;
 	}
 	
