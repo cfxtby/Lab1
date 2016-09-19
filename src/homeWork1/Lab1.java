@@ -10,7 +10,7 @@ public class Lab1 {
 	public static void main(String[] args) 
 	{//主函数主要用于调试各个部分的功能
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		Lab1 l=new Lab1();
 		//System.out.println(l.getCommand());
 		//System.out.println(l.getNum(l.getCommand()));
@@ -80,12 +80,10 @@ public class Lab1 {
 		//}
 	
 		
-=======
-		
 		/*
 		Scanner reader=new Scanner(System.in);
 		String str1=reader.nextLine();*/
-		Lab1 l=new Lab1();
+		//Lab1 l=new Lab1();
 		l.begin();
 		/*
 		
@@ -107,7 +105,7 @@ public class Lab1 {
 		System.out.println(l.expression(l.simplify(lt,str2,2)));
 		System.out.println(l.expression(lt));
 		*/
->>>>>>> origin/master
+//>>>>>>> origin/master
 	}
 
 	String getVar(String str)
@@ -126,7 +124,7 @@ public class Lab1 {
 	}
 
 	
-<<<<<<< HEAD
+///<<<<<<< HEAD
 	int getNum(String str)
 	{
 		Pattern p;
@@ -141,16 +139,19 @@ public class Lab1 {
 		else 
 			return (Integer) null;
 	}
-=======
+//=======
 	
 	public void begin(){
 		Scanner reader=new Scanner(System.in);
 		String order;
 		linkTable lz=null;
+		long time;
 		while(true){
 			order=reader.nextLine();
+			//order=order.replaceAll("", replacement)
+			time=System.currentTimeMillis();
 			if(test(order)){
-				lz=setTable(order);
+				lz=setTable(order.replaceAll("\\s*", ""));
 				System.out.println(expression(lz));
 			}
 			else if(simplifyIsTrue(order)){
@@ -163,7 +164,8 @@ public class Lab1 {
 			else if(dxIsTruesTrue(order)){
 				if(lz==null)System.out.println("请首先输入一个表达式");
 				else{
-					linkTable l=derivate1(lz,order);
+					String str=order.replaceAll("\\s*", "");
+					linkTable l=derivate1(lz,str.replaceAll("!d/d", ""));
 					System.out.println(expression(l));
 				}
 			}
@@ -171,10 +173,11 @@ public class Lab1 {
 			else{
 				System.out.println("请输入合法的表达式或命令");
 			}
+			System.out.println("执行本次命令花费了"+(System.currentTimeMillis()-time)+"ms");
 		}
 	}
 	
->>>>>>> origin/master
+//>>>>>>> origin/master
 	String expression(linkTable lt){//遍历表，读出多项式
 		String str="";
 		node p=lt.head,q=p;
@@ -201,14 +204,6 @@ public class Lab1 {
 						if(str.equals(""))str+=p.fac;
 						else str+="+"+p.fac;
 					}
-					
-					
-					/*flag=(p.fac==1);
-					if(str.equals("")&&p.fac>0)
-					str+=(p.fac==1&&p.link!=null?"":""+p.fac);
-					else if(p.fac>0)
-						str+="+"+(p.fac==1?"":""+p.fac);
-					else str+=p.fac;*/
 				}
 				else{
 					str+=(flag?"":"*")+q.var+(q.exp==1?"":"^"+q.exp);
@@ -324,8 +319,8 @@ public class Lab1 {
 	
 	
 	
-	 boolean test(String str){//测试多项式输入是否合法
-		
+	 boolean test(String str1){//测试多项式输入是否合法
+		String str=str1.replaceAll("\\s*", "");
 		if(!(str.matches("[1-9a-zA-Z[-]][[\\*\\^+-][0-9a-zA-Z]]*")))return false;//检查有无合法字符
 	
 		if((str.matches(".*[\\*\\^+-]")))return false;//检查末尾字符为符号情况
@@ -684,7 +679,7 @@ public class Lab1 {
 	boolean dxIsTruesTrue(String str)//判断输入是否合法
 	{
 		Pattern p;
-		p=Pattern.compile("!d/d[a-zA-Z]+");
+		p=Pattern.compile("!d/d\\s*[a-zA-Z]+");
 		Matcher m=p.matcher(str);
 		if(!m.find())return false;
 		return true;
