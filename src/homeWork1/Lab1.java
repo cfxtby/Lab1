@@ -7,32 +7,112 @@ import java.util.regex.Pattern;
 
 public class Lab1 {
 
-	public static void main(String[] args) {//主函数主要用于调试各个部分的功能
+	public static void main(String[] args) 
+	{//主函数主要用于调试各个部分的功能
 		// TODO Auto-generated method stub
-		Scanner reader=new Scanner(System.in);
-		String str1=reader.nextLine();
 		Lab1 l=new Lab1();
-		String testString=str1.replaceAll("[\t ]", "");
-		//testString=str1.replaceAll("", "");
-		
-		boolean flag=l.test(testString);
-		System.out.println(flag);
-		
-		linkTable lt=l.setTable(testString);
-		System.out.println(l.expression(lt));
-		//
-		Scanner reader1=new Scanner(System.in);
-		String str2=reader.nextLine();
-		//
-		System.out.println(l.expression(l.derivate(lt,str2)));
-		System.out.println(l.expression(lt));
+		//System.out.println(l.getCommand());
+		//System.out.println(l.getNum(l.getCommand()));
 		/*
-		System.out.println(l.expression(l.simplify(lt,str2,2)));
-		System.out.println(l.expression(lt));
-		*/
+		while(true)
+		{
+			String str1=l.getCommand();
+			String testString=str1.replaceAll("[\t ]", "");
+			//testString=str1.replaceAll("", "");
+			boolean isExpression=l.test(testString);
+			//System.out.println(flag);
+			if(!isExpression)
+			{
+				System.out.println("Wrong Expression!");
+				continue;
+			}
+			
+			linkTable originTable=l.setTable(testString);//存储表达式
+			System.out.println(str1);//输出表达式
+			String command=l.getCommand();//读取命令
+			Pattern p1,p2;
+			p1=Pattern.compile("!simplify");
+			p2=Pattern.compile("!d/d[a-zA-z]+");
+			Matcher m1,m2;
+			m1=p1.matcher(command);
+			m2=p2.matcher(command);
+			if(m1.find())//化简
+			{
+				//String simplifyStr=command;
+				if(l.simplifyIsTrue(command))
+				{
+					linkTable simplifiedTable = l.setTable(testString);
+					
+					String[] strsplit=command.split("\\s+");
+					for (int i=1;i<strsplit.length;i++)
+					{
+						simplifiedTable=l.simplify(simplifiedTable,l.getVar(strsplit[i]),l.getNum(strsplit[i]));
+					}
+					System.out.println(l.expression(simplifiedTable));
+				}
+				
+			}
+			else if(m2.find())
+			{
+				//String derStr=command;
+				if(l.dxIsTruesTrue(command))
+				{
+					linkTable derTable;
+					Pattern derP;
+					derP=Pattern.compile("!d/d");
+					Matcher derM;
+					derM=derP.matcher(command);
+					derM.find();
+					String derVar=command.substring(derM.end(), command.length());
+					derTable=l.derivate(originTable,derVar);
+					System.out.println(l.expression(derTable));
+				}
+			}*/
+			
+			//System.out.println(l.expression(l.derivate(lt,str2)));
+			//System.out.println(l.expression(lt));
+			
+			//System.out.println(l.expression(l.simplify(lt,str2,2)));
+			//System.out.println(l.expression(lt));
+			
+			
+		//}
+	
+		
+		
+		
 	}
+
+	String getVar(String str)
+	{
+		Pattern p;
+		p=Pattern.compile("[a-zA-z]+");
+		Matcher m;
+		m=p.matcher(str);
+		String result;
+		if(m.find()){
+			result=m.group();
+			//System.out.println(result);
+			return result;
+		}
+		else return "wrong";
+	}
+
 	
-	
+	int getNum(String str)
+	{
+		Pattern p;
+		p=Pattern.compile("\\d+");
+		Matcher m;
+		m=p.matcher(str);
+		if(m.find())
+		{
+			int result=Integer.parseInt(str.substring(m.start(),m.end()));
+			return result;
+		}
+		else 
+			return (Integer) null;
+	}
 	String expression(linkTable lt){//遍历表，读出多项式
 		String str="";
 		node p=lt.head,q=p;
@@ -61,6 +141,12 @@ public class Lab1 {
 			}
 		}
 		if(lt.head==null)str="0";
+		return str;
+	}
+	String getCommand()
+	{
+		Scanner reader=new Scanner(System.in);
+		String str=reader.nextLine();
 		return str;
 	}
 	
