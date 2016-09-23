@@ -523,18 +523,18 @@ public class Lab1 {
 				p=ltop.link;
 				lztop=lz.insert(ltop.fac);
 				while(p!=null&&p.var.compareTo(var)<0){
-					lz.insert(var, lztop, p.exp);
+					lz.insert(p.var, lztop, p.exp);
 					p=p.link;
 				}
 				if(p!=null&&p.var.compareTo(var)==0){
 					if(p.exp>1){
-						lz.insert(var, lztop, p.exp-1);
+						lz.insert(p.var, lztop, p.exp-1);
 						lztop.fac*=p.exp;
 					}
 					p=p.link;
 				}
 				while(p!=null){
-					lz.insert(var, lztop, p.exp);
+					lz.insert(p.var, lztop, p.exp);
 					p=p.link;
 				}
 				ltop=ltop.next;
@@ -660,6 +660,8 @@ public class Lab1 {
 	boolean simplifyIsTrue(String str)//判断!simplify输入是否合法
 	{
 		String str1=str.replaceAll("\\s*=\\s*", "=");
+		str1=str1.replaceAll("!\\s*simplify", "!simplify");
+		boolean flag=str.startsWith("!\\s*simplify");
 		String[] strsplit=str1.split("\\s+");
 		Pattern p;
 		p=Pattern.compile("!simplify");
