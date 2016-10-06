@@ -12,9 +12,6 @@ public class Lab1 {
 		// TODO Auto-generated method stub
 //<<<<<<< HEAD
 		Lab1 l=new Lab1();
-		//System.out.println(l.getCommand());
-		//System.out.println(l.getNum(l.getCommand()));
-		/*
 		while(true)
 		{
 			String str1=l.getCommand();
