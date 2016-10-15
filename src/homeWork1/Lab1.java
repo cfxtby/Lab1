@@ -7,10 +7,11 @@ import java.util.regex.Pattern;
 
 public class Lab1 {
 
+
+//你好，我是B2分支
+
 	public static void main(String[] args) 
-	{//主函数主要用于调试各个部分的功能
-		// TODO Auto-generated method stub
-//<<<<<<< HEAD
+	{
 		Lab1 l=new Lab1();
 		while(true)
 		{
