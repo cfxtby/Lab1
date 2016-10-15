@@ -9,8 +9,6 @@ public class Lab1 {
 
 	public static void main(String[] args) 
 	{//主函数主要用于调试各个部分的功能
-		// TODO Auto-generated method stub
-//<<<<<<< HEAD
 		Lab1 l=new Lab1();
 		while(true)
 		{
