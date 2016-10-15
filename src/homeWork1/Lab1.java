@@ -7,6 +7,9 @@ import java.util.regex.Pattern;
 
 public class Lab1 {
 
+
+//你好，我是B2分支
+
 	public static void main(String[] args) 
 	{//主函数主要用于调试各个部分的功能
 		Lab1 l=new Lab1();
