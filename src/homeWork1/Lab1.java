@@ -18,7 +18,6 @@ public class Lab1 {
 			String testString=str1.replaceAll("[\t ]", "");
 			//testString=str1.replaceAll("", "");
 			boolean isExpression=l.test(testString);
-			//System.out.println(flag);
 			if(!isExpression)
 			{
 				System.out.println("Wrong Expression!");
