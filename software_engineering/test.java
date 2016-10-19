@@ -327,12 +327,10 @@ class Expression{
 public class caculate {
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) {//main method
 		Scanner sc = new Scanner(System.in);
 		
 		String express = null;
-		String express1 = null;
-		String express_temp = null;
 		String command = null;
 		String command_re = null;
 		Expression exp;
