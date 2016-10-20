@@ -5,3 +5,4 @@ class node
 		int exp;
 		node next=null,link=null;
 	}
+//wanghejun

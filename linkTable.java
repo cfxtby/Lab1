@@ -87,3 +87,4 @@ public class linkTable//一个二维链表类
 		}
 		
 	}
+//wanghejun
