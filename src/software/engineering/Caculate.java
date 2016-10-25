@@ -4,22 +4,20 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /*hello*/
 /**
- * {@author you}
- * */
+ * {@author you}.
+ */
 
 public final class Caculate {
-  private Caculate(){
-    
+  private Caculate() {
+
   }
-  
+
   /**
    * {@author you}.
-   * */
+   */
   public static void main(final String[] args) {
-
 
     final long startMili = System.currentTimeMillis();
     System.out.println("执行开始时间：" + startMili);
@@ -59,8 +57,8 @@ public final class Caculate {
 
           command = sc1.nextLine();
           commandRe = exp.command(command);
-          boolean flagb=commandRe.equals(compareString);
-          if ( flagb ) {
+          boolean flagb = commandRe.equals(compareString);
+          if (flagb) {
             for (int i = 10; i + 2 <= command.trim().length();) {
               // System.out.println(String.valueOf(command.charAt(i)));
               // System.out.println(String.valueOf(command.charAt(i+2)));
@@ -72,7 +70,7 @@ public final class Caculate {
             }
             // System.out.println(express1);
             exp1 = new Expression(express1);
-            System.out.println(exp1.printExpression()); 
+            System.out.println(exp1.printExpression());
             express1 = exp.printExpression();// restore!!!
           } else if (commandRe.equals("0")) {
             if (exp.count(express1, String.valueOf(command.charAt(5))) == 0) {

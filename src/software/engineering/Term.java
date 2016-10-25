@@ -68,7 +68,7 @@ public class Term {
         if (index == -1) {
           this.vars.add(new Var(v, 1));
         } else {
-          this.vars.get(index).setPower(this.vars.get(index).getPower()+1);
+          this.vars.get(index).setPower(this.vars.get(index).getPower() + 1);
         }
       }
     }

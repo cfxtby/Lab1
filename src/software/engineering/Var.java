@@ -24,13 +24,8 @@ public class Var implements Comparable<Var> {
  　　* compareTo The method inherit from the interface "Comparable" Compare the
  　　* <Var> type by name of the variable
   */
-  /**
-   * {@author you}.
-   * */
-  
-  public int compareTo(Var x1) {
-    return Character.compare(this.name.charAt(0), x1.name.charAt(0));
-  }
+
+
 
   /*
    * stringFormat return the string format of the variable example: x on power
@@ -52,6 +47,34 @@ public class Var implements Comparable<Var> {
   Var(String name,final int power) {
     this.name = name;
     this.power = power;
+  }
+
+  
+  /**
+   * {@author you}.
+   * */
+  /*public int compareTo(Var o) {
+    // TODO Auto-generated method stub
+    return 0;
+  }*/
+  
+  @Override
+  public boolean equals(Object obj)
+  {
+    if (!(obj instanceof Var))
+       return false;
+    return compareTo((Var)obj) == 0;
+  }
+  
+  public int hashCode() {
+    assert false : "hashCode not designed";
+    return super.hashCode(); // any arbitrary constant will do
+    }
+  
+  public int compareTo(Var x1) {
+    if(this.name.equals(x1.name))return 0;
+    
+    return this.name.compareTo(x1.name);
   }
 
 }
