@@ -1,693 +1,662 @@
 package homeWork1;
 
-
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author sonny
+ *
+ */
 public class Lab1 {
+    /**
+     * @param args Ö÷º¯Êı²ÎÊı
+     */
+    public static void main(final String[] args) {
+        Lab1 l = new Lab1();
+        l.begin();
+    }
+    
+    /**
+     * @param str ×Ö·û
+     * @return ×Ö·û×ª»»½á¹û
+     */
+    final String getVar(final String str) {
+        Pattern p;
+        p = Pattern.compile("[a-zA-z]+");
+        Matcher m;
+        m = p.matcher(str);
+        String result;
+        if (m.find()) {
+            result = m.group();
+            return result;
+        } else {
+            return "wrong";
+        }
+    }
+
+    /**
+     * @param str ×Ö·û
+     * @return ×Ö·û×ª»»½á¹û
+     */
+    final Object getNum(final String str) {
+        Pattern p;
+        p = Pattern.compile("\\d+");
+        Matcher m;
+        m = p.matcher(str);
+        if (m.find()) {
+            int result = Integer.parseInt(str.substring(m.start(), m.end()));
+            return result;
+        } else {
+            return null;
+        }
+    }
 
 
-//ä½ å¥½ï¼Œæˆ‘æ˜¯B2åˆ†æ”¯
+    /**
+     * Èë¿Úº¯Êı.
+     */
+    public final void begin() {
+        Scanner reader = new Scanner(System.in);
+        String order;
+        linkTable lz = null;
+        long time;
+        while (true) {
+            order = reader.nextLine();
+            time = System.currentTimeMillis();
+            if (test(order)) {
+                lz = setTable(order.replaceAll("\\s*", ""));
+                ////if (LOG.isLoggable(Level.FINE)) {}
+                System.out.println(expression(lz));
+                
+            } else if (simplifyIsTrue(order)) {
+                if (lz == null) {
+                	//if (LOG.isLoggable(Level.FINE)) {
+                    System.out.println("ÇëÊ×ÏÈÊäÈëÒ»¸ö±í´ïÊ½");
+                	//}
+                } else {
+                    linkTable l = simplify(lz, order);
+                    //if (LOG.isLoggable(Level.FINE)) {
+                    System.out.println(expression(l));
+                    //}
+                }
+            } else if (dxIsTruesTrue(order)) {
+                if (lz == null) {
+                	//if (LOG.isLoggable(Level.FINE)) {
+                    System.out.println("ÇëÊ×ÏÈÊäÈëÒ»¸ö±í´ïÊ½");
+                	//}
+                } else {
+                    String str = order.replaceAll("\\s*", "");
+                    linkTable l = derivate1(lz, str.replaceAll("!d/d", ""));
+                    //if (LOG.isLoggable(Level.FINE)) {
+                    System.out.println(expression(l));
+                    //}
+                }
+            } else if (order.compareTo("!exit") == 0) {
+                break;
+            } else {
+            	//if (LOG.isLoggable(Level.FINE)) {
+                System.out.println("ÇëÊäÈëºÏ·¨µÄ±í´ïÊ½»òÃüÁî");
+            	//}
+            }
+            //if (LOG.isLoggable(Level.FINE)) {
+            System.out.println("Ö´ĞĞ±¾´ÎÃüÁî»¨·ÑÁË" + (System.currentTimeMillis() - time) + "ms");
+            //}
+        }
+        reader.close();
+    }
 
-	public static void main(String[] args) 
-	{//ä¸»å‡½æ•°ä¸»è¦ç”¨äºè°ƒè¯•å„ä¸ªéƒ¨åˆ†çš„åŠŸèƒ½
-		Lab1 l=new Lab1();
-		while(true)
-		{
-			String str1=l.getCommand();
-			String testString=str1.replaceAll("[\t ]", "");
-			//testString=str1.replaceAll("", "");
-			boolean isExpression=l.test(testString);
-			if(!isExpression)
-			{
-				System.out.println("Wrong Expression!");
-				continue;
-			}
-			
-			linkTable originTable=l.setTable(testString);//å­˜å‚¨è¡¨è¾¾å¼
-			System.out.println(str1);//è¾“å‡ºè¡¨è¾¾å¼
-			String command=l.getCommand();//è¯»å–å‘½ä»¤
-			Pattern p1,p2;
-			p1=Pattern.compile("!simplify");
-			p2=Pattern.compile("!d/d[a-zA-z]+");
-			Matcher m1,m2;
-			m1=p1.matcher(command);
-			m2=p2.matcher(command);
-			if(m1.find())//åŒ–ç®€
-			{
-				//String simplifyStr=command;
-				if(l.simplifyIsTrue(command))
-				{
-					linkTable simplifiedTable = l.setTable(testString);
-					
-					String[] strsplit=command.split("\\s+");
-					for (int i=1;i<strsplit.length;i++)
-					{
-						simplifiedTable=l.simplify(simplifiedTable,l.getVar(strsplit[i]),l.getNum(strsplit[i]));
-					}
-					System.out.println(l.expression(simplifiedTable));
-				}
-				
-			}
-			else if(m2.find())
-			{
-				//String derStr=command;
-				if(l.dxIsTruesTrue(command))
-				{
-					linkTable derTable;
-					Pattern derP;
-					derP=Pattern.compile("!d/d");
-					Matcher derM;
-					derM=derP.matcher(command);
-					derM.find();
-					String derVar=command.substring(derM.end(), command.length());
-					derTable=l.derivate(originTable,derVar);
-					System.out.println(l.expression(derTable));
-				}
-			}*/
-			
-			//System.out.println(l.expression(l.derivate(lt,str2)));
-			//System.out.println(l.expression(lt));
-			
-			//System.out.println(l.expression(l.simplify(lt,str2,2)));
-			//System.out.println(l.expression(lt));
-			
-			
-		//}
-	
-		
-		/*
-		Scanner reader=new Scanner(System.in);
-		String str1=reader.nextLine();*/
-		//Lab1 l=new Lab1();
-		l.begin();
-		/*
-		
-		String testString=str1.replaceAll("[\t ]", "");
-		//testString=str1.replaceAll("", "");
->>>>>>> origin/master
-		
-		
-<<<<<<< HEAD
-=======
-		linkTable lt=l.setTable(testString);
-		System.out.println(l.expression(lt));
-		//
-		String str2=reader.nextLine();
-		//
-		System.out.println(l.expression(l.derivate1(lt,str2)));
-		//System.out.println(l.expression(lt));
-		/*
-		System.out.println(l.expression(l.simplify(lt,str2,2)));
-		System.out.println(l.expression(lt));
-		*/
-//>>>>>>> origin/master
-	}
+    /**
+     * @param lt Á´±í²ÎÊı
+     * @return ¸ø³ö·µ»ØÖµ
+     */
+    final String expression(final linkTable lt) {// ±éÀú±í£¬¶Á³ö¶àÏîÊ½
+        String str = "";
+        node p = lt.head, q = p;
+        boolean flag = false;
 
-	String getVar(String str)
-	{
-		Pattern p;
-		p=Pattern.compile("[a-zA-z]+");
-		Matcher m;
-		m=p.matcher(str);
-		String result;
-		if(m.find()){
-			result=m.group();
-			//System.out.println(result);
-			return result;
-		}
-		else return "wrong";
-	}
+        while (q != null || p != null) {
+            if (q == null) {
+                q = p.next;
+                p = p.next;
+            } else {
 
-	
-///<<<<<<< HEAD
-	int getNum(String str)
-	{
-		Pattern p;
-		p=Pattern.compile("\\d+");
-		Matcher m;
-		m=p.matcher(str);
-		if(m.find())
-		{
-			int result=Integer.parseInt(str.substring(m.start(),m.end()));
-			return result;
-		}
-		else 
-			return (Integer) null;
-	}
-//=======
-	
-	public void begin(){
-		Scanner reader=new Scanner(System.in);
-		String order;
-		linkTable lz=null;
-		long time;
-		while(true){
-			order=reader.nextLine();
-			//order=order.replaceAll("", replacement)
-			time=System.currentTimeMillis();
-			if(test(order)){
-				lz=setTable(order.replaceAll("\\s*", ""));
-				System.out.println(expression(lz));
-			}
-			else if(simplifyIsTrue(order)){
-				if(lz==null)System.out.println("è¯·é¦–å…ˆè¾“å…¥ä¸€ä¸ªè¡¨è¾¾å¼");
-				else{
-					linkTable l=simplify(lz,order);
-					System.out.println(expression(l));
-				}
-			}
-			else if(dxIsTruesTrue(order)){
-				if(lz==null)System.out.println("è¯·é¦–å…ˆè¾“å…¥ä¸€ä¸ªè¡¨è¾¾å¼");
-				else{
-					String str=order.replaceAll("\\s*", "");
-					linkTable l=derivate1(lz,str.replaceAll("!d/d", ""));
-					System.out.println(expression(l));
-				}
-			}
-			else if(order.compareTo("!exit")==0)break;
-			else{
-				System.out.println("è¯·è¾“å…¥åˆæ³•çš„è¡¨è¾¾å¼æˆ–å‘½ä»¤");
-			}
-			System.out.println("æ‰§è¡Œæœ¬æ¬¡å‘½ä»¤èŠ±è´¹äº†"+(System.currentTimeMillis()-time)+"ms");
-		}
-	}
-	
-//>>>>>>> origin/master
-	String expression(linkTable lt){//éå†è¡¨ï¼Œè¯»å‡ºå¤šé¡¹å¼
-		String str="";
-		node p=lt.head,q=p;
-		boolean flag=false;
-		
-		while(q!=null||p!=null){
-			if(q==null){
-				q=p.next;
-				p=p.next;
-			}
-			else{
-				
-				if(p==q){
-					
-					if(p.fac==1&&p.link!=null){
-						if(!str.equals(""))str+="+";
-						flag=true;
-					}
-					else if(p.fac==-1&&p.link!=null){
-						str+="-";
-						flag=true;
-					}
-					else{
-						if(str.equals(""))str+=p.fac;
-						else str+="+"+p.fac;
-					}
-				}
-				else{
-					str+=(flag?"":"*")+q.var+(q.exp==1?"":"^"+q.exp);
-					if(flag)flag=false;
-				}
-				q=q.link;
-			}
-		}
-		if(lt.head==null)str="0";
-		return str;
-	}
-	String getCommand()
-	{
-		Scanner reader=new Scanner(System.in);
-		String str=reader.nextLine();
-		return str;
-	}
-	
-	linkTable setTable(String str){
-		linkTable lt=new linkTable();
-		int n=0;
-		Pattern p1,p2,p3,p4;
-		p1=Pattern.compile("[\\*+-]");
-		p2=Pattern.compile("\\d+");
-		p3=Pattern.compile("[a-zA-Z]+[\\^]\\d+");
-		p4=Pattern.compile("[a-zA-Z]+");
-		
-		Matcher m1,m2,m3,m4;
-		m1=p1.matcher(str);
-		m2=p2.matcher(str);
-		m3=p3.matcher(str);
-		m4=p4.matcher(str);
-		
-		boolean flag1,flag2,flag3,flag4;
-		flag1=m1.find(n);
-		flag2=m2.find(n);
-		flag3=m3.find(n);
-		flag4=m4.find(n);
-		
-		String dealStr;node top=null;
-		do{
-			if(flag1&&m1.start()==n){
-				dealStr=m1.group();
-				if(dealStr.compareTo("+")==0){
-					top=lt.insert(1);
-				}
-				else if(dealStr.compareTo("-")==0){
-					top=lt.insert(-1);
-				}
-				n=m1.end();
-				flag1=m1.find();
-			}
-			else if(flag2&&m2.start()==n){
-				dealStr=m2.group();
-				if(top==null){
-					top=lt.insert(Integer.parseInt(dealStr));
-				}
-				else {
-					top.fac=top.fac*Integer.parseInt(dealStr);
-				}
+                if (p == q) {
 
-				n=m2.end();
-				flag2=m2.find();
-			}
-			else if(flag3&&m3.start()==n){
-				dealStr=m3.group();
-				if(top==null)top=lt.insert(1);
-				Pattern p5=Pattern.compile("([a-zA-Z])\\1");
-				Matcher m5=p5.matcher(dealStr);
-				if(m5.find()){
-					lt.insert(dealStr.split("\\^")[0], top, Integer.parseInt(dealStr.split("\\^")[1]));
-				}
-				else{
-					String[] arrStr=dealStr.split("\\^");
-					char[] arrChar=arrStr[0].toCharArray();
-					lt.insert(arrChar[arrChar.length-1]+"",top,Integer.parseInt(dealStr.split("\\^")[1]));
-					for (int i=0;i<arrChar.length-1;i++){
-						lt.insert(arrChar[i]+"",top,1);
-					}
-				}
+                    if (p.fac == 1 && p.link != null) {
+                        if (!str.equals("")) {
+                            str += "+";
+                        }
+                        flag = true;
+                    } else if (p.fac == -1 && p.link != null) {
+                        str += "-";
+                        flag = true;
+                    } else {
+                        if (str.equals("")) {
+                            str += p.fac;
+                        } else {
+                            str += "+" + p.fac;
+                        }
+                    }
+                } else {
+                    str += (flag ? "" : "*") + q.var + (q.exp == 1 ? "" : "^" + q.exp);
+                    if (flag) {
+                        flag = false;
+                    }
+                }
+                q = q.link;
+            }
+        }
+        if (lt.head == null) {
+            str = "0";
+        }
+        return str;
+    }
 
-				n=m3.end();
-				flag3=m3.find();
-				flag4=m4.find(n);
-				flag2=m2.find(n);
-			}
-			else if(flag4&&m4.start()==n){
-				if(top==null)top=lt.insert(1);
-				dealStr=m4.group();
-				Pattern p5=Pattern.compile("([a-zA-Z])\\1");
-				Matcher m5=p5.matcher(dealStr);
-				if(m5.find()){
-					lt.insert(dealStr, top,1);
-				}
-				else{
-					char[] arrChar=dealStr.toCharArray();
-					//lt.insert(arrChar[arrChar.length-1]+"",top,Integer.parseInt(dealStr.split("^")[1]));
-					for (int i=0;i<arrChar.length;i++){
-						lt.insert(arrChar[i]+"",top,1);
-					}
-				}
+    /**
+     * @return ÊäÈëµÄÃüÁî
+     */
+    final String getCommand() {
+        Scanner reader = new Scanner(System.in);
+        String str = reader.nextLine();
+        reader.close();
+        return str;
+    }
 
-				n=m4.end();
-				flag4=m4.find();
-			}
-			
-		}while(n!=str.length());
-	//	lt.simplify();
-		return lt;
-	}
+    /**
+     * @param str ²ÎÊı
+     * @return ·µ»ØÖµ
+     */
+    final linkTable setTable(final String str) {
+        linkTable lt = new linkTable();
+        int n = 0;
+        Pattern p1, p2, p3, p4;
+        p1 = Pattern.compile("[\\*+-]");
+        p2 = Pattern.compile("\\d+");
+        p3 = Pattern.compile("[a-zA-Z]+[\\^]\\d+");
+        p4 = Pattern.compile("[a-zA-Z]+");
 
+        Matcher m1, m2, m3, m4;
+        m1 = p1.matcher(str);
+        m2 = p2.matcher(str);
+        m3 = p3.matcher(str);
+        m4 = p4.matcher(str);
 
-	
-	
-	
-	 boolean test(String str1){//æµ‹è¯•å¤šé¡¹å¼è¾“å…¥æ˜¯å¦åˆæ³•
-		String str=str1.replaceAll("\\s*", "");
-		if(!(str.matches("[1-9a-zA-Z[-]][[\\*\\^+-][0-9a-zA-Z]]*")))return false;//æ£€æŸ¥æœ‰æ— åˆæ³•å­—ç¬¦
-	
-		if((str.matches(".*[\\*\\^+-]")))return false;//æ£€æŸ¥æœ«å°¾å­—ç¬¦ä¸ºç¬¦å·æƒ…å†µ
-		Pattern p=Pattern.compile("[a-zA-Z][0-9]");//æ£€æŸ¥æ˜¯å¦å­˜åœ¨å­—æ¯åä¸ºæ•°å­—æƒ…å†µ
-		Matcher m=p.matcher(str);
-		if(m.find())return false;
-		
-		p=Pattern.compile("[\\*\\^+-]{2,}");//æ£€æŸ¥è¿ç»­ä¸¤ä¸ªè¿ç®—ç¬¦æƒ…å†µ
-		m=p.matcher(str);
-		if(m.find())return false;
-		
-		p=Pattern.compile("[\\^][a-zA-Z]");//æ£€æŸ¥å­˜åœ¨å­—æ¯ä¸ºå¹‚æŒ‡æ•°
-		m=p.matcher(str);
-		if(m.find())return false;
-		
-		p=Pattern.compile("[\\^]\\d+[a-zA-Z]");//æ£€æŸ¥å¹‚æŒ‡æ•°åç›´æ¥æœ‰å­—æ¯
-		m=p.matcher(str);
-		if(m.find())return false;
-		
-		return true;
-	}
-	
-	class linkTable//ä¸€ä¸ªäºŒç»´é“¾è¡¨ç±»
-	{
-		node head;
-		node tail;
+        boolean flag1, flag2, flag3, flag4;
+        flag1 = m1.find(n);
+        flag2 = m2.find(n);
+        flag3 = m3.find(n);
+        flag4 = m4.find(n);
 
-		public node insert(int fac)//æ’å…¥æ¯åˆ—çš„å¤´èŠ‚ç‚¹ï¼Œè¿”å›è¯¥èŠ‚ç‚¹
-		//æ’å…¥ç³»æ•°èŠ‚ç‚¹
+        String dealStr;
+        node top = null;
+        do {
+            if (flag1 && m1.start() == n) {
+                dealStr = m1.group();
+                if (dealStr.compareTo("+") == 0) {
+                    top = lt.insert(1);
+                } else if (dealStr.compareTo("-") == 0) {
+                    top = lt.insert(-1);
+                }
+                n = m1.end();
+                flag1 = m1.find();
+            } else if (flag2 && m2.start() == n) {
+                dealStr = m2.group();
+                if (top == null) {
+                    top = lt.insert(Integer.parseInt(dealStr));
+                } else {
+                    top.fac = top.fac * Integer.parseInt(dealStr);
+                }
 
-		{
-			node n=new node();
-			n.fac=fac;
-			if(head==null)
-			{
-				head=n;
-				tail=n;
-			}
-			else
-			{
-				tail.next=n;
-				tail=tail.next;
-			}
-			return n;
-		}
-		public void insert(String var,node top,int num)
-		{
-			node p=top;
-			while (p.link!=null&&p.link.var.compareTo(var)<0)
-			{
-				p=p.link;
-			}
-			
-			if(p.link==null){
-				node n=new node();
-				n.var=var;n.exp=num;
-				p.link=n;
-			}
-			else if(p.link.var.compareTo(var)==0){
-				p.link.exp+=num;
-			}
-			else{
-				node q=p.link,n=new node();
-				n.var=var;n.exp=num;
-				p.link=n;n.link=q;
-			}
-		}
-	
-		public void simplify(){//å¯¹äºè¯¥é“¾è¡¨è¿›è¡Œå¤„ç†ï¼Œç®€åŒ–å¤šé¡¹å¼
-			node p=head,q=head.next,r=head,r1=head;
-			while(p!=null){
-			
-			if(q==null){
-				r1=p;
-				p=p.next;
-				if(p==null)break;
-				q=p.next;r=p;
-			}
-			else if(compare(p,q)){
-				p.fac=p.fac+q.fac;
-			
-				
-				if(q==tail)tail=r;
-				r.next=q.next;
-				q=q.next;
-				
-				if(p.fac==0){
-					if(r1==p)head=p.next;
-					if(tail==p)tail=null;
-				}
-				
-				
-				}
-			else{
-				r=q;q=q.next;
-				}
-			}
-		}
-	
-		boolean compare(node top1,node top2){//æ£€æŸ¥æ¯ä¸€åˆ—åçš„å˜é‡æ˜¯å¦å®Œå…¨ç›¸åŒ
-			node p=top1.link,q=top2.link;
-			while(p!=null&&q!=null){
-				if(!(p.exp==q.exp&&p.var.equals(q.var)))
-					return false;
-				p=p.link;q=q.link;
-			}
-			if(p==q)return true;
-			else return false;
-		}
-		
-	}
-	
-	class node
-	{
-		int fac;
-		String var;
-		int exp;
-		node next=null,link=null;
-	}
-	//åŒ–ç®€å¹¶ç”Ÿæˆæ–°çš„é“¾è¡¨
-	
-	linkTable simplify(linkTable l,String order){//å°†è¾“å…¥çš„å‘½ä»¤è¿›è¡Œè§£æï¼Œå¹¶è¿›è¡Œç®€åŒ–
-		String str1=order.replaceAll("\\s*=\\s*", "=");
-		String[] strsplit=str1.split("\\s+");
-		linkTable l1=l,l2;
-		for(int i=1;i<strsplit.length;i++)
-		{
-			l2=simplify(l1,strsplit[i].split("=")[0],Integer.parseInt(strsplit[i].split("=")[1]));
-			if(l2==null){
-				System.out.println(strsplit[i].split("=")[0]+"å˜é‡ä¸å­˜åœ¨");
-				return null;
-			}
-			l1=l2;
-		}
-		l1.simplify();
-		return l1;
-	}
-	
-	linkTable simplify(linkTable l,String var,int num)
-	{
-		linkTable lz=new linkTable();
-		node ltop=l.head;
-		node lztop=lz.head;
-		boolean flag=false;
-		while (ltop!=null)//å¯»æ‰¾å˜é‡æ‰€åœ¨çš„ä½ç½®
-		{
-			lztop=lz.insert(ltop.fac);
-			node lp=ltop.link;
-			//node lzp=lztop.link;
-			while(lp!=null&&lp.var.compareTo(var)<0)//è¿™é‡Œçš„compareToåˆ¤æ–­æ¡ä»¶å¯èƒ½ä¸å¯¹
-			{
-				//è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
-				lz.insert(lp.var, lztop, lp.exp);
-				//
-				lp=lp.link;
-			}
-			if(lp!=null&&lp.var.compareTo(var)==0)  //å¦‚æœæ‰¾åˆ°å˜é‡å€¼çš„è¯
-			{
-				lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//è®¡ç®—å€¼
-				flag=true;
-				//ltop=ltop.next;//å‰å¾€ä¸‹ä¸€åˆ—æ‰¾
-				//continue;
-			}
-			else if(lp!=null)
-			{
-				lz.insert(lp.var, lztop, lp.exp);
-			}
-			
-			while(lp!=null&&lp.link!=null)
-			{
-				lp=lp.link;
-				//è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
-				lz.insert(lp.var, lztop, lp.exp);
-			}
-			ltop=ltop.next;
-			//lztop.next=ltop;//æ¨ªå‘çš„é“¾è¦é“¾æ¥å¥½;
-		}
-		//lp=ltop.link;
-		if(flag)
-		return lz;
-		else return null;
-	}
-	
-	
-	linkTable derivate1(linkTable l,String var)//æ±‚å¯¼å‡½æ•°ï¼Œå‚æ•°ï¼šäºŒç»´é“¾è¡¨ï¼Œè¢«æ±‚å¯¼çš„è‡ªå˜é‡
-	{
-		linkTable lz=new linkTable();
-		node ltop=l.head,lztopb,lztop,p,q;
-		while(ltop!=null){
-			p=ltop.link;
-			//lztop=lz.insert(ltop.fac);
-			while(p!=null&&p.var.compareTo(var)<0){
-				//lz.insert(var, lztop, p.exp);
-				p=p.link;
-			}
-			if(p==null||p.var.compareTo(var)!=0){
-				ltop=ltop.next;
-			}
-			else{
-				p=ltop.link;
-				lztop=lz.insert(ltop.fac);
-				while(p!=null&&p.var.compareTo(var)<0){
-					lz.insert(p.var, lztop, p.exp);
-					p=p.link;
-				}
-				if(p!=null&&p.var.compareTo(var)==0){
-					if(p.exp>1){
-						lz.insert(p.var, lztop, p.exp-1);
-						lztop.fac*=p.exp;
-					}
-					p=p.link;
-				}
-				while(p!=null){
-					lz.insert(p.var, lztop, p.exp);
-					p=p.link;
-				}
-				ltop=ltop.next;
-			}
-			
-		}
-		return lz;
-	}
-	linkTable derivate(linkTable l,String var)//æ±‚å¯¼å‡½æ•°ï¼Œå‚æ•°ï¼šäºŒç»´é“¾è¡¨ï¼Œè¢«æ±‚å¯¼çš„è‡ªå˜é‡
-	{
-		boolean findVar=false;
-		linkTable lz=new linkTable();
-		node ltop=l.head;
-		node lztop=lz.head;
-		while (ltop!=null)//å¯»æ‰¾å˜é‡æ‰€åœ¨çš„ä½ç½®
-		{
-			//lztop=lz.insert(ltop.fac);
-			node lfind=ltop.link;
-			//node lzp=lztop.link;
-			while(lfind!=null&&lfind.var.compareTo(var)<0)//è¿™é‡Œçš„compareToåˆ¤æ–­æ¡ä»¶å¯èƒ½ä¸å¯¹
-			{
-				//è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
-				//lz.insert(lp.var, lztop, lp.exp);
-				//
-				lfind=lfind.link;
-			}
-			if(lfind!=null&&lfind.var.compareTo(var)==0&&lfind.exp!=0)  //å¦‚æœæ‰¾åˆ°å˜é‡å€¼çš„è¯è€Œä¸”å˜é‡çš„å¹‚æŒ‡æ•°ä¸ä¸ºé›¶
-			{
-				findVar=true;
-				/*
-				if (lp.exp>1)
-				{
-					lztop.fac=ltop.fac*lp.exp-1;//å…ˆå¾—å‡ºç³»æ•°
-					lz.insert(lp.var, lztop, lp.exp-1);
-				}
-				
-				else if(lp.exp==1)
-				{
-					//è²Œä¼¼ä¸ç”¨å¤„ç†ç›´æ¥è·³è¿‡
-				}
-				
-				else if(lp.exp==0)
-				{
-					findVar=false;
-				}
-				*/
-				//lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//è®¡ç®—å€¼
-				//ltop=ltop.next;//å‰å¾€ä¸‹ä¸€åˆ—æ‰¾
-				//continue;
-			}
-			/*
-			else if(lp!=null)
-			{
-				lz.insert(lp.var, lztop, lp.exp);
-			}
-			*/
-			if (findVar)
-			{
-				lztop=lz.insert(ltop.fac);
-				node lp=ltop.link;
-				//node lzp=lztop.link;
-				while(lp!=null&&lp.var.compareTo(var)<0)//è¿™é‡Œçš„compareToåˆ¤æ–­æ¡ä»¶å¯èƒ½ä¸å¯¹
-				{
-					//è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
-					lz.insert(lp.var, lztop, lp.exp);
-					//
-					lp=lp.link;
-				}
-				if(lp!=null&&lp.var.compareTo(var)==0)  //å¦‚æœæ‰¾åˆ°å˜é‡å€¼çš„è¯
-				{
-					//findVar=true;
-					
-					if (lp.exp>1)
-					{
-						lztop.fac=ltop.fac*(lp.exp-1);//å…ˆå¾—å‡ºç³»æ•°//è®¡ç®—æ–¹æ³•é”™è¯¯
-						lz.insert(lp.var, lztop, lp.exp-1);
-					}
-					/*
-					else if(lp.exp==1)
-					{
-						//è²Œä¼¼ä¸ç”¨å¤„ç†ç›´æ¥è·³è¿‡
-					}
-					*/
-					/*
-					else if(lp.exp==0)
-					{
-						findVar=false;
-					}
-					*/
-					//lztop.fac=(int) (ltop.fac*Math.pow(num,lp.exp));//è®¡ç®—å€¼
-					//ltop=ltop.next;//å‰å¾€ä¸‹ä¸€åˆ—æ‰¾
-					//continue;
-				}
-				/*
-				else if(lp!=null)
-				{
-					lz.insert(lp.var, lztop, lp.exp);
-				}
-				*/
-				while(lp!=null&&lp.link!=null)
-				{
-					lp=lp.link;
-					//è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
-					lz.insert(lp.var, lztop, lp.exp);
-					
-					
-				}	
-					
-			}
-			
-			
-			
-			
-			ltop=ltop.next;
-			findVar=false;
-			//lztop.next=ltop;//æ¨ªå‘çš„é“¾è¦é“¾æ¥å¥½;
-			
-		}
-		
-		return lz;
-	}
-	
-	boolean simplifyIsTrue(String str)//åˆ¤æ–­!simplifyè¾“å…¥æ˜¯å¦åˆæ³•
-	{
-		String str1=str.replaceAll("\\s*=\\s*", "=");
-		str1=str1.replaceAll("!\\s*simplify", "!simplify");
-		boolean flag=str.startsWith("!\\s*simplify");
-		String[] strsplit=str1.split("\\s+");
-		Pattern p;
-		p=Pattern.compile("!simplify");
-		Matcher m=p.matcher(strsplit[0]);
-		if(!m.find())return false;
-		//if(strsplit.length<=1){System.out.println("è¯·è¾“å…¥å˜é‡!!!!");return false;}
-		for(int i=1;i<strsplit.length;i++)
-		{
-			Pattern p1;
-			p1=Pattern.compile("[a-zA-Z]+={1}[\\d]+");
-			Matcher m1=p1.matcher(strsplit[i]);
-			if(!m1.matches())return false;
-		}
-		return true;
-	}
-	
-	boolean dxIsTruesTrue(String str)//åˆ¤æ–­è¾“å…¥æ˜¯å¦åˆæ³•
-	{
-		Pattern p;
-		p=Pattern.compile("!d/d\\s*[a-zA-Z]+");
-		Matcher m=p.matcher(str);
-		if(!m.find())return false;
-		return true;
-	}
-	
-	
+                n = m2.end();
+                flag2 = m2.find();
+            } else if (flag3 && m3.start() == n) {
+                dealStr = m3.group();
+                if (top == null) {
+                    top = lt.insert(1);
+                }
+                Pattern p5 = Pattern.compile("([a-zA-Z])\\1");
+                Matcher m5 = p5.matcher(dealStr);
+                if (m5.find()) {
+                    lt.insert(dealStr.split("\\^")[0], top, Integer.parseInt(dealStr.split("\\^")[1]));
+                } else {
+                    String[] arrStr = dealStr.split("\\^");
+                    char[] arrChar = arrStr[0].toCharArray();
+                    lt.insert(arrChar[arrChar.length - 1] + "", top, Integer.parseInt(dealStr.split("\\^")[1]));
+                    for (int i = 0; i < arrChar.length - 1; i++) {
+                        lt.insert(arrChar[i] + "", top, 1);
+                    }
+                }
 
+                n = m3.end();
+                flag3 = m3.find();
+                flag4 = m4.find(n);
+                flag2 = m2.find(n);
+            } else if (flag4 && m4.start() == n) {
+                if (top == null) {
+                    top = lt.insert(1);
+                }
+                dealStr = m4.group();
+                Pattern p5 = Pattern.compile("([a-zA-Z])\\1");
+                Matcher m5 = p5.matcher(dealStr);
+                if (m5.find()) {
+                    lt.insert(dealStr, top, 1);
+                } else {
+                    char[] arrChar = dealStr.toCharArray();
+                    for (int i = 0; i < arrChar.length; i++) {
+                        lt.insert(arrChar[i] + "", top, 1);
+                    }
+                }
+
+                n = m4.end();
+                flag4 = m4.find();
+            }
+
+        } while (n != str.length());
+        return lt;
+    }
+
+    /**
+     * @param str1 ²ÎÊı
+     * @return ·µ»ØÖµ
+     */
+    final boolean test(final String str1) { // ²âÊÔ¶àÏîÊ½ÊäÈëÊÇ·ñºÏ·¨
+        String str = str1.replaceAll("\\s*", "");
+        if (!(str.matches("[1-9a-zA-Z[-]][[\\*\\^+-][0-9a-zA-Z]]*"))) {
+            return false; // ¼ì²éÓĞÎŞºÏ·¨×Ö·û
+        }
+
+        if ((str.matches(".*[\\*\\^+-]"))) {
+            return false; // ¼ì²éÄ©Î²×Ö·ûÎª·ûºÅÇé¿ö
+        }
+        Pattern p = Pattern.compile("[a-zA-Z][0-9]"); // ¼ì²éÊÇ·ñ´æÔÚ×ÖÄ¸ºóÎªÊı×ÖÇé¿ö
+        Matcher m = p.matcher(str);
+        if (m.find()) {
+            return false;
+        }
+
+        p = Pattern.compile("[\\*\\^+-]{2,}"); // ¼ì²éÁ¬ĞøÁ½¸öÔËËã·ûÇé¿ö
+        m = p.matcher(str);
+        if (m.find()) {
+            return false;
+        }
+
+        p = Pattern.compile("[\\^][a-zA-Z]"); // ¼ì²é´æÔÚ×ÖÄ¸ÎªÃİÖ¸Êı
+        m = p.matcher(str);
+        if (m.find()) {
+            return false;
+        }
+
+        p = Pattern.compile("[\\^]\\d+[a-zA-Z]"); // ¼ì²éÃİÖ¸ÊıºóÖ±½ÓÓĞ×ÖÄ¸
+        m = p.matcher(str);
+        if (m.find()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @author sonny
+     *Ò»¸ö¶şÎ»Á´±íÀà.
+     */
+    class linkTable { // Ò»¸ö¶şÎ¬Á´±íÀà
+        /**
+         * Í·.
+         */
+        node head;
+        /**
+         * Î².
+         */
+        node tail;
+
+        /**
+         * ²åÈëÃ¿ÁĞµÄÍ·½Úµã£¬·µ»Ø¸Ã½Úµã.
+         * ²åÈëÏµÊı½Úµã.
+         * @param fac ²ÎÊı
+         * @return ·µ»ØÖµ
+         */
+        public node insert(final int fac) {
+            node n = new node();
+            n.fac = fac;
+            if (head == null) {
+                head = n;
+                tail = n;
+            } else {
+                tail.next = n;
+                tail = tail.next;
+            }
+            return n;
+        }
+
+        /**
+         * @param var ²ÎÊı
+         * @param top ²ÎÊı
+         * @param num ²ÎÊı
+         */
+        public void insert(final String var, final node top, final int num) {
+            node p = top;
+            while (p.link != null && p.link.var.compareTo(var) < 0) {
+                p = p.link;
+            }
+
+            if (p.link == null) {
+                node n = new node();
+                n.var = var;
+                n.exp = num;
+                p.link = n;
+            } else if (p.link.var.compareTo(var) == 0) {
+                p.link.exp += num;
+            } else {
+                node q = p.link, n = new node();
+                n.var = var;
+                n.exp = num;
+                p.link = n;
+                n.link = q;
+            }
+        }
+
+        /**
+         *  ¶ÔÓÚ¸ÃÁ´±í½øĞĞ´¦Àí£¬¼ò»¯¶àÏîÊ½.
+         */
+        public void simplify() {
+            node p = head, q = head.next, r = head, r1 = head;
+            while (p != null) {
+
+                if (q == null) {
+                    r1 = p;
+                    p = p.next;
+                    if (p == null) {
+                        break;
+                    }
+                    q = p.next;
+                    r = p;
+                } else if (compare(p, q)) {
+                    p.fac = p.fac + q.fac;
+
+                    if (q == tail) {
+                        tail = r;
+                    }
+                    r.next = q.next;
+                    q = q.next;
+
+                    if (p.fac == 0) {
+                        if (r1 == p) {
+                            head = p.next;
+                        }
+                        if (tail == p) {
+                            tail = null;
+                        }
+                    }
+
+                } else {
+                    r = q;
+                    q = q.next;
+                }
+            }
+        }
+
+        /**
+         * ¼ì²éÃ¿Ò»ÁĞºóµÄ±äÁ¿ÊÇ·ñÍêÈ«ÏàÍ¬.
+         * @param top1 ²ÎÊı
+         * @param top2 ²ÎÊı
+         * @return ·µ»ØÖµ
+         */
+        boolean compare(final node top1, final node top2) {
+            node p = top1.link, q = top2.link;
+            while (p != null && q != null) {
+                if (!(p.exp == q.exp && p.var.equals(q.var))) {
+                    return false;
+                }
+                p = p.link;
+                q = q.link;
+            }
+            return p == q;
+        }
+
+    }
+
+    /**
+     * @author sonny
+     *
+     */
+    class node {
+        /**
+         *  1.
+         */
+        int fac;
+        /**
+         *  2.
+         */
+        String var;
+        /**
+         *  3.
+         */
+        int exp;
+        /**
+         *  4.
+         */
+        node next = null, link = null;
+    }
+    // »¯¼ò²¢Éú³ÉĞÂµÄÁ´±í
+
+    /**
+     * ½«ÊäÈëµÄÃüÁî½øĞĞ½âÎö£¬²¢½øĞĞ¼ò»¯.
+     * @param l ²ÎÊı
+     * @param order ²ÎÊı
+     * @return ·µ»ØÖµ
+     */
+    final linkTable simplify(final linkTable l, final String order) {
+        String str1 = order.replaceAll("\\s*=\\s*", "=");
+        String[] strsplit = str1.split("\\s+");
+        linkTable l1 = l, l2;
+        for (int i = 1; i < strsplit.length; i++) {
+            l2 = simplify(l1, strsplit[i].split("=")[0], Integer.parseInt(strsplit[i].split("=")[1]));
+            if (l2 == null) {
+            	//if (LOG.isLoggable(Level.FINE)) {
+                System.out.println(strsplit[i].split("=")[0] + "±äÁ¿²»´æÔÚ");
+            	//}
+                return null;
+            }
+            l1 = l2;
+        }
+        l1.simplify();
+        return l1;
+    }
+
+    /**
+     * @param l ²ÎÊı
+     * @param var ²ÎÊı
+     * @param num ²ÎÊı
+     * @return ·µ»ØÖµ
+     */
+    final linkTable simplify(final linkTable l, final String var, final int num) {
+        linkTable lz = new linkTable();
+        node ltop = l.head;
+        node lztop = lz.head;
+        boolean flag = false;
+        while (ltop != null)// Ñ°ÕÒ±äÁ¿ËùÔÚµÄÎ»ÖÃ
+        {
+            lztop = lz.insert(ltop.fac);
+            node lp = ltop.link;
+            // node lzp=lztop.link;
+            while (lp != null && lp.var.compareTo(var) < 0) { // ÕâÀïµÄcompareToÅĞ¶ÏÌõ¼ş¿ÉÄÜ²»¶Ô
+                // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
+                lz.insert(lp.var, lztop, lp.exp);
+                //
+                lp = lp.link;
+            }
+            if (lp != null && lp.var.compareTo(var) == 0) { // Èç¹ûÕÒµ½±äÁ¿ÖµµÄ»°
+                lztop.fac = (int) (ltop.fac * Math.pow(num, lp.exp)); // ¼ÆËãÖµ
+                flag = true;
+                // ltop=ltop.next;//Ç°ÍùÏÂÒ»ÁĞÕÒ
+                // continue;
+            } else if (lp != null) {
+                lz.insert(lp.var, lztop, lp.exp);
+            }
+
+            while (lp != null && lp.link != null) {
+                lp = lp.link;
+                // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
+                lz.insert(lp.var, lztop, lp.exp);
+            }
+            ltop = ltop.next;
+            // lztop.next=ltop;//ºáÏòµÄÁ´ÒªÁ´½ÓºÃ;
+        }
+        // lp=ltop.link;
+        if (flag) {
+            return lz;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Çóµ¼º¯Êı£¬²ÎÊı£º¶şÎ¬Á´±í£¬±»Çóµ¼µÄ×Ô±äÁ¿.
+     * @param l ²ÎÊı
+     * @param var ²ÎÊı
+     * @return ·µ»ØÖµ
+     */
+    final linkTable derivate1(final linkTable l, final String var) {
+        linkTable lz = new linkTable();
+        node ltop = l.head,  lztop, p;
+        while (ltop != null) {
+            p = ltop.link;
+            // lztop=lz.insert(ltop.fac);
+            while (p != null && p.var.compareTo(var) < 0) {
+                // lz.insert(var, lztop, p.exp);
+                p = p.link;
+            }
+            if (p == null || p.var.compareTo(var) != 0) {
+                ltop = ltop.next;
+            } else {
+                p = ltop.link;
+                lztop = lz.insert(ltop.fac);
+                while (p != null && p.var.compareTo(var) < 0) {
+                    lz.insert(p.var, lztop, p.exp);
+                    p = p.link;
+                }
+                if (p != null && p.var.compareTo(var) == 0) {
+                    if (p.exp > 1) {
+                        lz.insert(p.var, lztop, p.exp - 1);
+                        lztop.fac *= p.exp;
+                    }
+                    p = p.link;
+                }
+                while (p != null) {
+                    lz.insert(p.var, lztop, p.exp);
+                    p = p.link;
+                }
+                ltop = ltop.next;
+            }
+
+        }
+        return lz;
+    }
+
+    /**
+     * Çóµ¼º¯Êı£¬²ÎÊı£º¶şÎ¬Á´±í£¬±»Çóµ¼µÄ×Ô±äÁ¿.
+     * @param l ²ÎÊı
+     * @param var ²ÎÊı
+     * @return ·µ»ØÖµ
+     */
+    final linkTable derivate(final linkTable l, final String var) {
+        boolean findVar = false;
+        linkTable lz = new linkTable();
+        node ltop = l.head;
+        node lztop = lz.head;
+        while (ltop != null) { // Ñ°ÕÒ±äÁ¿ËùÔÚµÄÎ»ÖÃ
+
+            // lztop=lz.insert(ltop.fac);
+            node lfind = ltop.link;
+            // node lzp=lztop.link;
+            while (lfind != null && lfind.var.compareTo(var) < 0) { // ÕâÀïµÄcompareToÅĞ¶ÏÌõ¼ş¿ÉÄÜ²»¶Ô
+                // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
+                // lz.insert(lp.var, lztop, lp.exp);
+                //
+                lfind = lfind.link;
+            }
+            if (lfind != null && lfind.var.compareTo(var) == 0 && lfind.exp != 0) { // Èç¹ûÕÒµ½±äÁ¿ÖµµÄ»°¶øÇÒ±äÁ¿µÄÃİÖ¸Êı²»ÎªÁã
+                findVar = true;
+
+            }
+
+            if (findVar) {
+                lztop = lz.insert(ltop.fac);
+                node lp = ltop.link;
+                while (lp != null && lp.var.compareTo(var) < 0) { // ÕâÀïµÄcompareToÅĞ¶ÏÌõ¼ş¿ÉÄÜ²»¶Ô
+                    // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
+                    lz.insert(lp.var, lztop, lp.exp);
+                    //
+                    lp = lp.link;
+                }
+                if (lp != null && lp.var.compareTo(var) == 0) { // Èç¹ûÕÒµ½±äÁ¿ÖµµÄ»°
+                    if (lp.exp > 1) {
+                        lztop.fac = ltop.fac * (lp.exp - 1); // ÏÈµÃ³öÏµÊı//¼ÆËã·½·¨´íÎó
+                        lz.insert(lp.var, lztop, lp.exp - 1);
+                    }
+
+                }
+
+                while (lp != null && lp.link != null) {
+                    lp = lp.link;
+                    // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
+                    lz.insert(lp.var, lztop, lp.exp);
+
+                }
+
+            }
+
+            ltop = ltop.next;
+            findVar = false;
+            // lztop.next=ltop;//ºáÏòµÄÁ´ÒªÁ´½ÓºÃ;
+
+        }
+
+        return lz;
+    }
+
+    /**
+     * ÅĞ¶Ï!simplifyÊäÈëÊÇ·ñºÏ·¨.
+     * @param str ²ÎÊı
+     * @return ·µ»ØÖµ
+     */
+    final boolean simplifyIsTrue(final String str) { // ÅĞ¶Ï!simplifyÊäÈëÊÇ·ñºÏ·¨
+        String str1 = str.replaceAll("\\s*=\\s*", "=");
+        str1 = str1.replaceAll("!\\s*simplify", "!simplify");
+        //boolean flag = str.startsWith("!\\s*simplify");
+        String[] strsplit = str1.split("\\s+");
+        Pattern p;
+        p = Pattern.compile("!simplify");
+        Matcher m = p.matcher(strsplit[0]);
+        if (!m.find()) {
+            return false;
+        }
+        // if(strsplit.length<=1){System.out.println("ÇëÊäÈë±äÁ¿!!!!");return false;}
+        for (int i = 1; i < strsplit.length; i++) {
+            Pattern p1;
+            p1 = Pattern.compile("[a-zA-Z]+={1}[\\d]+");
+            Matcher m1 = p1.matcher(strsplit[i]);
+            if (!m1.matches()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * ÅĞ¶ÏÊäÈëÊÇ·ñºÏ·¨.
+     * @param str ²ÎÊı
+     * @return ·µ»ØÖµ
+     */
+    final boolean dxIsTruesTrue(final String str) { // ÅĞ¶ÏÊäÈëÊÇ·ñºÏ·¨
+        Pattern p;
+        p = Pattern.compile("!d/d\\s*[a-zA-Z]+");
+        Matcher m = p.matcher(str);
+        if (!m.find()) {
+            return false;
+        }
+        return true;
+    }
 
 }
-
-
-
