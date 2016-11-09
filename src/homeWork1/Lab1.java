@@ -1,8 +1,6 @@
 package homeWork1;
 
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,13 +9,18 @@ import java.util.regex.Pattern;
  *
  */
 public class Lab1 {
-	static final Logger LOG = Logger.getLogger(Lab1.class.getName());
+  
+  linkTable lz = null;
     /**
      * @param args 主函数参数
      */
     public static void main(final String[] args) {
         Lab1 l = new Lab1();
         l.begin();
+    }
+    
+    public linkTable getTable(){
+      return lz;
     }
     
     /**
@@ -56,55 +59,68 @@ public class Lab1 {
     }
 
 
+    public String simplifyTest(linkTable lt,String order){
+      if(simplifyIsTrue(order)){
+        
+        linkTable lt1=simplify(lt,order);
+        if (lt1==null)return "error order!";
+        return expression(lt1);
+      }
+      else{
+        return "error order!";
+      }
+    }
+    
+    
     /**
      * 入口函数.
      */
     public final void begin() {
         Scanner reader = new Scanner(System.in);
         String order;
-        linkTable lz = null;
+        
         long time;
         while (true) {
             order = reader.nextLine();
             time = System.currentTimeMillis();
             if (test(order)) {
                 lz = setTable(order.replaceAll("\\s*", ""));
-                if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine(expression(lz));
-                }
+                ////if (LOG.isLoggable(Level.FINE)) {}
+                System.out.println(expression(lz));
+                
             } else if (simplifyIsTrue(order)) {
                 if (lz == null) {
-                	if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("请首先输入一个表达式");
-                	}
+                	//if (LOG.isLoggable(Level.FINE)) {
+                    System.out.println("请首先输入一个表达式");
+                	//}
                 } else {
                     linkTable l = simplify(lz, order);
-                    if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine(expression(l));
-                    }
+                    //if (LOG.isLoggable(Level.FINE)) {
+                    System.out.println(expression(l));
+                    //}
                 }
             } else if (dxIsTruesTrue(order)) {
                 if (lz == null) {
-                	if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("请首先输入一个表达式");
-                	}
+                	//if (LOG.isLoggable(Level.FINE)) {
+                    System.out.println("请首先输入一个表达式");
+                	//}
                 } else {
                     String str = order.replaceAll("\\s*", "");
                     linkTable l = derivate1(lz, str.replaceAll("!d/d", ""));
-                    if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine(expression(l));
-                    }
+                    //if (LOG.isLoggable(Level.FINE)) {
+                    System.out.println(expression(l));
+                    //}
                 }
             } else if (order.compareTo("!exit") == 0) {
                 break;
             } else {
-            	if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("请输入合法的表达式或命令");
-            	}
+            	//if (LOG.isLoggable(Level.FINE)) {
+                System.out.println("请输入合法的表达式或命令");
+            	//}
             }
-            if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("执行本次命令花费了" + (System.currentTimeMillis() - time) + "ms");
-            }
+            //if (LOG.isLoggable(Level.FINE)) {
+            System.out.println("执行本次命令花费了" + (System.currentTimeMillis() - time) + "ms");
+            //}
         }
         reader.close();
     }
@@ -456,9 +472,9 @@ public class Lab1 {
         for (int i = 1; i < strsplit.length; i++) {
             l2 = simplify(l1, strsplit[i].split("=")[0], Integer.parseInt(strsplit[i].split("=")[1]));
             if (l2 == null) {
-            	if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine(strsplit[i].split("=")[0] + "变量不存在");
-            	}
+            	//if (LOG.isLoggable(Level.FINE)) {
+                System.out.println(strsplit[i].split("=")[0] + "变量不存在");
+            	//}
                 return null;
             }
             l1 = l2;
@@ -514,6 +530,8 @@ public class Lab1 {
         }
     }
 
+
+    
     /**
      * 求导函数，参数：二维链表，被求导的自变量.
      * @param l 参数
@@ -570,9 +588,7 @@ public class Lab1 {
         node lztop = lz.head;
         while (ltop != null) { // 寻找变量所在的位置
 
-            // lztop=lz.insert(ltop.fac);
             node lfind = ltop.link;
-            // node lzp=lztop.link;
             while (lfind != null && lfind.var.compareTo(var) < 0) { // 这里的compareTo判断条件可能不对
                 // 这里应该把寻找过的节点插入到新的链表里
                 // lz.insert(lp.var, lztop, lp.exp);
@@ -629,13 +645,15 @@ public class Lab1 {
         str1 = str1.replaceAll("!\\s*simplify", "!simplify");
         //boolean flag = str.startsWith("!\\s*simplify");
         String[] strsplit = str1.split("\\s+");
+        if(strsplit.length<1)return false;
         Pattern p;
+        if(!strsplit[0].equals("!simplify"))return false;
         p = Pattern.compile("!simplify");
         Matcher m = p.matcher(strsplit[0]);
         if (!m.find()) {
             return false;
         }
-        // if(strsplit.length<=1){log.fine("请输入变量!!!!");return false;}
+        // if(strsplit.length<=1){System.out.println("请输入变量!!!!");return false;}
         for (int i = 1; i < strsplit.length; i++) {
             Pattern p1;
             p1 = Pattern.compile("[a-zA-Z]+={1}[\\d]+");
@@ -661,5 +679,7 @@ public class Lab1 {
         }
         return true;
     }
+
+    
 
 }
