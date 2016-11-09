@@ -1,0 +1,11 @@
+!simplify,x^2+yoo^2
+!simplify x=1 yoo=2,5
+ ,error order!
+x,error order!
+!simplify x=,error order!
+!simplify =x,error order!
+!simplify x x,error order!
+!simplify 1a=1,error order!
+!simplify a!=1,error order!
+!simplify 1a=y,error order!
+!simplify a=2,error order!
