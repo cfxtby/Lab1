@@ -59,10 +59,11 @@ public class Lab1Test {
     return null;
     
   }  
+
   
   @Test
   public void test() {
-    System.out.println(l1.simplifyTest(l1.getTable(),request));
+    //System.out.println(l1.simplifyTest(l1.getTable(),request));
     assertEquals(expect, l1.simplifyTest(l1.getTable(),request));
   }
 

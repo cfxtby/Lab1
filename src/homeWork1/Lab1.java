@@ -12,7 +12,7 @@ public class Lab1 {
   
   linkTable lz = null;
     /**
-     * @param args ä¸»å‡½æ•°å‚æ•°
+     * @param args Ö÷º¯Êı²ÎÊı
      */
     public static void main(final String[] args) {
         Lab1 l = new Lab1();
@@ -24,8 +24,8 @@ public class Lab1 {
     }
     
     /**
-     * @param str å­—ç¬¦
-     * @return å­—ç¬¦è½¬æ¢ç»“æœ
+     * @param str ×Ö·û
+     * @return ×Ö·û×ª»»½á¹û
      */
     final String getVar(final String str) {
         Pattern p;
@@ -42,8 +42,8 @@ public class Lab1 {
     }
 
     /**
-     * @param str å­—ç¬¦
-     * @return å­—ç¬¦è½¬æ¢ç»“æœ
+     * @param str ×Ö·û
+     * @return ×Ö·û×ª»»½á¹û
      */
     final Object getNum(final String str) {
         Pattern p;
@@ -73,7 +73,7 @@ public class Lab1 {
     
     
     /**
-     * å…¥å£å‡½æ•°.
+     * Èë¿Úº¯Êı.
      */
     public final void begin() {
         Scanner reader = new Scanner(System.in);
@@ -91,7 +91,7 @@ public class Lab1 {
             } else if (simplifyIsTrue(order)) {
                 if (lz == null) {
                 	//if (LOG.isLoggable(Level.FINE)) {
-                    System.out.println("è¯·é¦–å…ˆè¾“å…¥ä¸€ä¸ªè¡¨è¾¾å¼");
+                    System.out.println("ÇëÊ×ÏÈÊäÈëÒ»¸ö±í´ïÊ½");
                 	//}
                 } else {
                     linkTable l = simplify(lz, order);
@@ -102,7 +102,7 @@ public class Lab1 {
             } else if (dxIsTruesTrue(order)) {
                 if (lz == null) {
                 	//if (LOG.isLoggable(Level.FINE)) {
-                    System.out.println("è¯·é¦–å…ˆè¾“å…¥ä¸€ä¸ªè¡¨è¾¾å¼");
+                    System.out.println("ÇëÊ×ÏÈÊäÈëÒ»¸ö±í´ïÊ½");
                 	//}
                 } else {
                     String str = order.replaceAll("\\s*", "");
@@ -115,21 +115,21 @@ public class Lab1 {
                 break;
             } else {
             	//if (LOG.isLoggable(Level.FINE)) {
-                System.out.println("è¯·è¾“å…¥åˆæ³•çš„è¡¨è¾¾å¼æˆ–å‘½ä»¤");
+                System.out.println("ÇëÊäÈëºÏ·¨µÄ±í´ïÊ½»òÃüÁî");
             	//}
             }
             //if (LOG.isLoggable(Level.FINE)) {
-            System.out.println("æ‰§è¡Œæœ¬æ¬¡å‘½ä»¤èŠ±è´¹äº†" + (System.currentTimeMillis() - time) + "ms");
+            System.out.println("Ö´ĞĞ±¾´ÎÃüÁî»¨·ÑÁË" + (System.currentTimeMillis() - time) + "ms");
             //}
         }
         reader.close();
     }
 
     /**
-     * @param lt é“¾è¡¨å‚æ•°
-     * @return ç»™å‡ºè¿”å›å€¼
+     * @param lt Á´±í²ÎÊı
+     * @return ¸ø³ö·µ»ØÖµ
      */
-    final String expression(final linkTable lt) {// éå†è¡¨ï¼Œè¯»å‡ºå¤šé¡¹å¼
+    final String expression(final linkTable lt) {// ±éÀú±í£¬¶Á³ö¶àÏîÊ½
         String str = "";
         node p = lt.head, q = p;
         boolean flag = false;
@@ -154,7 +154,7 @@ public class Lab1 {
                         if (str.equals("")) {
                             str += p.fac;
                         } else {
-                            str += "+" + p.fac;
+                          str += (p.fac>=0?"+":"") + p.fac;
                         }
                     }
                 } else {
@@ -173,7 +173,7 @@ public class Lab1 {
     }
 
     /**
-     * @return è¾“å…¥çš„å‘½ä»¤
+     * @return ÊäÈëµÄÃüÁî
      */
     final String getCommand() {
         Scanner reader = new Scanner(System.in);
@@ -183,8 +183,8 @@ public class Lab1 {
     }
 
     /**
-     * @param str å‚æ•°
-     * @return è¿”å›å€¼
+     * @param str ²ÎÊı
+     * @return ·µ»ØÖµ
      */
     final linkTable setTable(final String str) {
         linkTable lt = new linkTable();
@@ -276,37 +276,37 @@ public class Lab1 {
     }
 
     /**
-     * @param str1 å‚æ•°
-     * @return è¿”å›å€¼
+     * @param str1 ²ÎÊı
+     * @return ·µ»ØÖµ
      */
-    final boolean test(final String str1) { // æµ‹è¯•å¤šé¡¹å¼è¾“å…¥æ˜¯å¦åˆæ³•
+    final boolean test(final String str1) { // ²âÊÔ¶àÏîÊ½ÊäÈëÊÇ·ñºÏ·¨
         String str = str1.replaceAll("\\s*", "");
         if (!(str.matches("[1-9a-zA-Z[-]][[\\*\\^+-][0-9a-zA-Z]]*"))) {
-            return false; // æ£€æŸ¥æœ‰æ— åˆæ³•å­—ç¬¦
+            return false; // ¼ì²éÓĞÎŞºÏ·¨×Ö·û
         }
 
         if ((str.matches(".*[\\*\\^+-]"))) {
-            return false; // æ£€æŸ¥æœ«å°¾å­—ç¬¦ä¸ºç¬¦å·æƒ…å†µ
+            return false; // ¼ì²éÄ©Î²×Ö·ûÎª·ûºÅÇé¿ö
         }
-        Pattern p = Pattern.compile("[a-zA-Z][0-9]"); // æ£€æŸ¥æ˜¯å¦å­˜åœ¨å­—æ¯åä¸ºæ•°å­—æƒ…å†µ
+        Pattern p = Pattern.compile("[a-zA-Z][0-9]"); // ¼ì²éÊÇ·ñ´æÔÚ×ÖÄ¸ºóÎªÊı×ÖÇé¿ö
         Matcher m = p.matcher(str);
         if (m.find()) {
             return false;
         }
 
-        p = Pattern.compile("[\\*\\^+-]{2,}"); // æ£€æŸ¥è¿ç»­ä¸¤ä¸ªè¿ç®—ç¬¦æƒ…å†µ
+        p = Pattern.compile("[\\*\\^+-]{2,}"); // ¼ì²éÁ¬ĞøÁ½¸öÔËËã·ûÇé¿ö
         m = p.matcher(str);
         if (m.find()) {
             return false;
         }
 
-        p = Pattern.compile("[\\^][a-zA-Z]"); // æ£€æŸ¥å­˜åœ¨å­—æ¯ä¸ºå¹‚æŒ‡æ•°
+        p = Pattern.compile("[\\^][a-zA-Z]"); // ¼ì²é´æÔÚ×ÖÄ¸ÎªÃİÖ¸Êı
         m = p.matcher(str);
         if (m.find()) {
             return false;
         }
 
-        p = Pattern.compile("[\\^]\\d+[a-zA-Z]"); // æ£€æŸ¥å¹‚æŒ‡æ•°åç›´æ¥æœ‰å­—æ¯
+        p = Pattern.compile("[\\^]\\d+[a-zA-Z]"); // ¼ì²éÃİÖ¸ÊıºóÖ±½ÓÓĞ×ÖÄ¸
         m = p.matcher(str);
         if (m.find()) {
             return false;
@@ -317,23 +317,23 @@ public class Lab1 {
 
     /**
      * @author sonny
-     *ä¸€ä¸ªäºŒä½é“¾è¡¨ç±».
+     *Ò»¸ö¶şÎ»Á´±íÀà.
      */
-    class linkTable { // ä¸€ä¸ªäºŒç»´é“¾è¡¨ç±»
+    class linkTable { // Ò»¸ö¶şÎ¬Á´±íÀà
         /**
-         * å¤´.
+         * Í·.
          */
         node head;
         /**
-         * å°¾.
+         * Î².
          */
         node tail;
 
         /**
-         * æ’å…¥æ¯åˆ—çš„å¤´èŠ‚ç‚¹ï¼Œè¿”å›è¯¥èŠ‚ç‚¹.
-         * æ’å…¥ç³»æ•°èŠ‚ç‚¹.
-         * @param fac å‚æ•°
-         * @return è¿”å›å€¼
+         * ²åÈëÃ¿ÁĞµÄÍ·½Úµã£¬·µ»Ø¸Ã½Úµã.
+         * ²åÈëÏµÊı½Úµã.
+         * @param fac ²ÎÊı
+         * @return ·µ»ØÖµ
          */
         public node insert(final int fac) {
             node n = new node();
@@ -349,9 +349,9 @@ public class Lab1 {
         }
 
         /**
-         * @param var å‚æ•°
-         * @param top å‚æ•°
-         * @param num å‚æ•°
+         * @param var ²ÎÊı
+         * @param top ²ÎÊı
+         * @param num ²ÎÊı
          */
         public void insert(final String var, final node top, final int num) {
             node p = top;
@@ -376,7 +376,7 @@ public class Lab1 {
         }
 
         /**
-         *  å¯¹äºè¯¥é“¾è¡¨è¿›è¡Œå¤„ç†ï¼Œç®€åŒ–å¤šé¡¹å¼.
+         *  ¶ÔÓÚ¸ÃÁ´±í½øĞĞ´¦Àí£¬¼ò»¯¶àÏîÊ½.
          */
         public void simplify() {
             node p = head, q = head.next, r = head, r1 = head;
@@ -416,10 +416,10 @@ public class Lab1 {
         }
 
         /**
-         * æ£€æŸ¥æ¯ä¸€åˆ—åçš„å˜é‡æ˜¯å¦å®Œå…¨ç›¸åŒ.
-         * @param top1 å‚æ•°
-         * @param top2 å‚æ•°
-         * @return è¿”å›å€¼
+         * ¼ì²éÃ¿Ò»ÁĞºóµÄ±äÁ¿ÊÇ·ñÍêÈ«ÏàÍ¬.
+         * @param top1 ²ÎÊı
+         * @param top2 ²ÎÊı
+         * @return ·µ»ØÖµ
          */
         boolean compare(final node top1, final node top2) {
             node p = top1.link, q = top2.link;
@@ -457,13 +457,13 @@ public class Lab1 {
          */
         node next = null, link = null;
     }
-    // åŒ–ç®€å¹¶ç”Ÿæˆæ–°çš„é“¾è¡¨
+    // »¯¼ò²¢Éú³ÉĞÂµÄÁ´±í
 
     /**
-     * å°†è¾“å…¥çš„å‘½ä»¤è¿›è¡Œè§£æï¼Œå¹¶è¿›è¡Œç®€åŒ–.
-     * @param l å‚æ•°
-     * @param order å‚æ•°
-     * @return è¿”å›å€¼
+     * ½«ÊäÈëµÄÃüÁî½øĞĞ½âÎö£¬²¢½øĞĞ¼ò»¯.
+     * @param l ²ÎÊı
+     * @param order ²ÎÊı
+     * @return ·µ»ØÖµ
      */
     final linkTable simplify(final linkTable l, final String order) {
         String str1 = order.replaceAll("\\s*=\\s*", "=");
@@ -473,7 +473,7 @@ public class Lab1 {
             l2 = simplify(l1, strsplit[i].split("=")[0], Integer.parseInt(strsplit[i].split("=")[1]));
             if (l2 == null) {
             	//if (LOG.isLoggable(Level.FINE)) {
-                System.out.println(strsplit[i].split("=")[0] + "å˜é‡ä¸å­˜åœ¨");
+                System.out.println(strsplit[i].split("=")[0] + "±äÁ¿²»´æÔÚ");
             	//}
                 return null;
             }
@@ -484,31 +484,31 @@ public class Lab1 {
     }
 
     /**
-     * @param l å‚æ•°
-     * @param var å‚æ•°
-     * @param num å‚æ•°
-     * @return è¿”å›å€¼
+     * @param l ²ÎÊı
+     * @param var ²ÎÊı
+     * @param num ²ÎÊı
+     * @return ·µ»ØÖµ
      */
     final linkTable simplify(final linkTable l, final String var, final int num) {
         linkTable lz = new linkTable();
         node ltop = l.head;
         node lztop = lz.head;
         boolean flag = false;
-        while (ltop != null)// å¯»æ‰¾å˜é‡æ‰€åœ¨çš„ä½ç½®
+        while (ltop != null)// Ñ°ÕÒ±äÁ¿ËùÔÚµÄÎ»ÖÃ
         {
             lztop = lz.insert(ltop.fac);
             node lp = ltop.link;
             // node lzp=lztop.link;
-            while (lp != null && lp.var.compareTo(var) < 0) { // è¿™é‡Œçš„compareToåˆ¤æ–­æ¡ä»¶å¯èƒ½ä¸å¯¹
-                // è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
+            while (lp != null && lp.var.compareTo(var) < 0) { // ÕâÀïµÄcompareToÅĞ¶ÏÌõ¼ş¿ÉÄÜ²»¶Ô
+                // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
                 lz.insert(lp.var, lztop, lp.exp);
                 //
                 lp = lp.link;
             }
-            if (lp != null && lp.var.compareTo(var) == 0) { // å¦‚æœæ‰¾åˆ°å˜é‡å€¼çš„è¯
-                lztop.fac = (int) (ltop.fac * Math.pow(num, lp.exp)); // è®¡ç®—å€¼
+            if (lp != null && lp.var.compareTo(var) == 0) { // Èç¹ûÕÒµ½±äÁ¿ÖµµÄ»°
+                lztop.fac = (int) (ltop.fac * Math.pow(num, lp.exp)); // ¼ÆËãÖµ
                 flag = true;
-                // ltop=ltop.next;//å‰å¾€ä¸‹ä¸€åˆ—æ‰¾
+                // ltop=ltop.next;//Ç°ÍùÏÂÒ»ÁĞÕÒ
                 // continue;
             } else if (lp != null) {
                 lz.insert(lp.var, lztop, lp.exp);
@@ -516,11 +516,11 @@ public class Lab1 {
 
             while (lp != null && lp.link != null) {
                 lp = lp.link;
-                // è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
+                // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
                 lz.insert(lp.var, lztop, lp.exp);
             }
             ltop = ltop.next;
-            // lztop.next=ltop;//æ¨ªå‘çš„é“¾è¦é“¾æ¥å¥½;
+            // lztop.next=ltop;//ºáÏòµÄÁ´ÒªÁ´½ÓºÃ;
         }
         // lp=ltop.link;
         if (flag) {
@@ -533,10 +533,10 @@ public class Lab1 {
 
     
     /**
-     * æ±‚å¯¼å‡½æ•°ï¼Œå‚æ•°ï¼šäºŒç»´é“¾è¡¨ï¼Œè¢«æ±‚å¯¼çš„è‡ªå˜é‡.
-     * @param l å‚æ•°
-     * @param var å‚æ•°
-     * @return è¿”å›å€¼
+     * Çóµ¼º¯Êı£¬²ÎÊı£º¶şÎ¬Á´±í£¬±»Çóµ¼µÄ×Ô±äÁ¿.
+     * @param l ²ÎÊı
+     * @param var ²ÎÊı
+     * @return ·µ»ØÖµ
      */
     final linkTable derivate1(final linkTable l, final String var) {
         linkTable lz = new linkTable();
@@ -576,26 +576,26 @@ public class Lab1 {
     }
 
     /**
-     * æ±‚å¯¼å‡½æ•°ï¼Œå‚æ•°ï¼šäºŒç»´é“¾è¡¨ï¼Œè¢«æ±‚å¯¼çš„è‡ªå˜é‡.
-     * @param l å‚æ•°
-     * @param var å‚æ•°
-     * @return è¿”å›å€¼
+     * Çóµ¼º¯Êı£¬²ÎÊı£º¶şÎ¬Á´±í£¬±»Çóµ¼µÄ×Ô±äÁ¿.
+     * @param l ²ÎÊı
+     * @param var ²ÎÊı
+     * @return ·µ»ØÖµ
      */
     final linkTable derivate(final linkTable l, final String var) {
         boolean findVar = false;
         linkTable lz = new linkTable();
         node ltop = l.head;
         node lztop = lz.head;
-        while (ltop != null) { // å¯»æ‰¾å˜é‡æ‰€åœ¨çš„ä½ç½®
+        while (ltop != null) { // Ñ°ÕÒ±äÁ¿ËùÔÚµÄÎ»ÖÃ
 
             node lfind = ltop.link;
-            while (lfind != null && lfind.var.compareTo(var) < 0) { // è¿™é‡Œçš„compareToåˆ¤æ–­æ¡ä»¶å¯èƒ½ä¸å¯¹
-                // è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
+            while (lfind != null && lfind.var.compareTo(var) < 0) { // ÕâÀïµÄcompareToÅĞ¶ÏÌõ¼ş¿ÉÄÜ²»¶Ô
+                // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
                 // lz.insert(lp.var, lztop, lp.exp);
                 //
                 lfind = lfind.link;
             }
-            if (lfind != null && lfind.var.compareTo(var) == 0 && lfind.exp != 0) { // å¦‚æœæ‰¾åˆ°å˜é‡å€¼çš„è¯è€Œä¸”å˜é‡çš„å¹‚æŒ‡æ•°ä¸ä¸ºé›¶
+            if (lfind != null && lfind.var.compareTo(var) == 0 && lfind.exp != 0) { // Èç¹ûÕÒµ½±äÁ¿ÖµµÄ»°¶øÇÒ±äÁ¿µÄÃİÖ¸Êı²»ÎªÁã
                 findVar = true;
 
             }
@@ -603,15 +603,15 @@ public class Lab1 {
             if (findVar) {
                 lztop = lz.insert(ltop.fac);
                 node lp = ltop.link;
-                while (lp != null && lp.var.compareTo(var) < 0) { // è¿™é‡Œçš„compareToåˆ¤æ–­æ¡ä»¶å¯èƒ½ä¸å¯¹
-                    // è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
+                while (lp != null && lp.var.compareTo(var) < 0) { // ÕâÀïµÄcompareToÅĞ¶ÏÌõ¼ş¿ÉÄÜ²»¶Ô
+                    // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
                     lz.insert(lp.var, lztop, lp.exp);
                     //
                     lp = lp.link;
                 }
-                if (lp != null && lp.var.compareTo(var) == 0) { // å¦‚æœæ‰¾åˆ°å˜é‡å€¼çš„è¯
+                if (lp != null && lp.var.compareTo(var) == 0) { // Èç¹ûÕÒµ½±äÁ¿ÖµµÄ»°
                     if (lp.exp > 1) {
-                        lztop.fac = ltop.fac * (lp.exp - 1); // å…ˆå¾—å‡ºç³»æ•°//è®¡ç®—æ–¹æ³•é”™è¯¯
+                        lztop.fac = ltop.fac * (lp.exp - 1); // ÏÈµÃ³öÏµÊı//¼ÆËã·½·¨´íÎó
                         lz.insert(lp.var, lztop, lp.exp - 1);
                     }
 
@@ -619,7 +619,7 @@ public class Lab1 {
 
                 while (lp != null && lp.link != null) {
                     lp = lp.link;
-                    // è¿™é‡Œåº”è¯¥æŠŠå¯»æ‰¾è¿‡çš„èŠ‚ç‚¹æ’å…¥åˆ°æ–°çš„é“¾è¡¨é‡Œ
+                    // ÕâÀïÓ¦¸Ã°ÑÑ°ÕÒ¹ıµÄ½Úµã²åÈëµ½ĞÂµÄÁ´±íÀï
                     lz.insert(lp.var, lztop, lp.exp);
 
                 }
@@ -628,7 +628,7 @@ public class Lab1 {
 
             ltop = ltop.next;
             findVar = false;
-            // lztop.next=ltop;//æ¨ªå‘çš„é“¾è¦é“¾æ¥å¥½;
+            // lztop.next=ltop;//ºáÏòµÄÁ´ÒªÁ´½ÓºÃ;
 
         }
 
@@ -636,11 +636,11 @@ public class Lab1 {
     }
 
     /**
-     * åˆ¤æ–­!simplifyè¾“å…¥æ˜¯å¦åˆæ³•.
-     * @param str å‚æ•°
-     * @return è¿”å›å€¼
+     * ÅĞ¶Ï!simplifyÊäÈëÊÇ·ñºÏ·¨.
+     * @param str ²ÎÊı
+     * @return ·µ»ØÖµ
      */
-    final boolean simplifyIsTrue(final String str) { // åˆ¤æ–­!simplifyè¾“å…¥æ˜¯å¦åˆæ³•
+    final boolean simplifyIsTrue(final String str) { // ÅĞ¶Ï!simplifyÊäÈëÊÇ·ñºÏ·¨
         String str1 = str.replaceAll("\\s*=\\s*", "=");
         str1 = str1.replaceAll("!\\s*simplify", "!simplify");
         //boolean flag = str.startsWith("!\\s*simplify");
@@ -653,7 +653,7 @@ public class Lab1 {
         if (!m.find()) {
             return false;
         }
-        // if(strsplit.length<=1){System.out.println("è¯·è¾“å…¥å˜é‡!!!!");return false;}
+        // if(strsplit.length<=1){System.out.println("ÇëÊäÈë±äÁ¿!!!!");return false;}
         for (int i = 1; i < strsplit.length; i++) {
             Pattern p1;
             p1 = Pattern.compile("[a-zA-Z]+={1}[\\d]+");
@@ -666,11 +666,11 @@ public class Lab1 {
     }
 
     /**
-     * åˆ¤æ–­è¾“å…¥æ˜¯å¦åˆæ³•.
-     * @param str å‚æ•°
-     * @return è¿”å›å€¼
+     * ÅĞ¶ÏÊäÈëÊÇ·ñºÏ·¨.
+     * @param str ²ÎÊı
+     * @return ·µ»ØÖµ
      */
-    final boolean dxIsTruesTrue(final String str) { // åˆ¤æ–­è¾“å…¥æ˜¯å¦åˆæ³•
+    final boolean dxIsTruesTrue(final String str) { // ÅĞ¶ÏÊäÈëÊÇ·ñºÏ·¨
         Pattern p;
         p = Pattern.compile("!d/d\\s*[a-zA-Z]+");
         Matcher m = p.matcher(str);
@@ -680,6 +680,5 @@ public class Lab1 {
         return true;
     }
 
-    
 
 }
