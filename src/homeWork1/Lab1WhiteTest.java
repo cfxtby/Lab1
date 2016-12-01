@@ -23,7 +23,7 @@ import junit.framework.Assert;
 @RunWith(Parameterized.class)
 public class Lab1WhiteTest {
 
-  private Lab1 l1;
+  private LinkTable l1;
   protected String request, expect;
 
   public Lab1WhiteTest(String request, String expect) {
@@ -31,9 +31,10 @@ public class Lab1WhiteTest {
     this.expect = expect;
   }
 
+  
   @Before
   public void before() {
-    l1 = new Lab1();
+    //l1 = new LinkTable();
   }
 
   @Parameters
@@ -58,12 +59,12 @@ public class Lab1WhiteTest {
 
   @Test
   public void testExpression() {
-    l1.lz = l1.setTable(request);
+    l1=new LinkTable(request);
     if (request.equals("testNull"))
-      l1.lz.head = null;
+      l1.setHead(null);
 
-    System.out.println(l1.expression(l1.lz));
-    assertEquals(expect, l1.expression(l1.lz));
+    System.out.println(l1.expression());
+    assertEquals(expect, l1.expression());
   }
 
 }

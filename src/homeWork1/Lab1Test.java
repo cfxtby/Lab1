@@ -25,7 +25,7 @@ import junit.framework.Assert;
 public class Lab1Test {
 
   
-  private Lab1 l1;
+  private LinkTable l1;
   protected String request,expect;  
   public Lab1Test(String request,String expect){
     this.request=request;
@@ -35,8 +35,7 @@ public class Lab1Test {
   
   @Before
   public void before(){
-    l1=new Lab1();
-    l1.lz=l1.setTable("x^2+yoo^2");
+    l1=new LinkTable("x^2+yoo^2");
   }
   
   
@@ -63,8 +62,8 @@ public class Lab1Test {
   
   @Test
   public void test() {
-    //System.out.println(l1.simplifyTest(l1.getTable(),request));
-    assertEquals(expect, l1.simplifyTest(l1.getTable(),request));
+    System.out.println(expect+":"+l1.simplifyTest(request));
+    assertEquals(expect, l1.simplifyTest(request));
   }
 
 }
